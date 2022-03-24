@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Routes, Route, Navigate, Link, withRouter } from "react-router-dom"
+import { Redirect, Switch, Route, Link, withRouter } from "react-router-dom"
 import Users from "./Users"
 import Posts from "./Posts"
 
@@ -30,11 +30,11 @@ class Home extends Component {
             </ul>
           </div>
         </nav>
-        {/* <Routes>
-          <Navigate exact from="/" to="/users" />
+        <Switch>
+          <Redirect exact from="/" to="/users" />
           <Route path="/users" component={Users} />
           <Route path="/posts" component={Posts} />
-        </Routes> */}
+        </Switch>
       </div>
     )
   }
