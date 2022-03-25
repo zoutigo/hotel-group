@@ -7,12 +7,15 @@ import "./styles/app.css"
 import Home from "./js/components/Home"
 
 render(
-  <SnackbarProvider anchorOrigin={{ vertical: "top", horizontal: "center" }}>
-    <StoreProvider>
-      <Router>
-        <Home />
-      </Router>
-    </StoreProvider>
-  </SnackbarProvider>,
+  <ThemeProvider theme={theme}>
+    <SnackbarProvider anchorOrigin={{ vertical: "top", horizontal: "center" }}>
+      <StoreProvider>
+        <Router>
+          <Home />
+        </Router>
+      </StoreProvider>
+    </SnackbarProvider>
+  </ThemeProvider>,
+
   document.getElementById("root")
 )
