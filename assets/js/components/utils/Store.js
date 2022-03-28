@@ -1,8 +1,9 @@
 import Cookies from "js-cookie"
-import { createContext, useReducer } from "react"
+import React, { createContext, useReducer } from "react"
 
 export const Store = createContext()
 const initialState = {
+  smallNav: Cookies.get("smallNav") === "ON",
   darkMode: Cookies.get("darkMode") === "ON",
   cart: {
     cartItems: Cookies.get("cartItems")

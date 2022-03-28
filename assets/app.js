@@ -3,9 +3,11 @@ import { render } from "react-dom"
 import { BrowserRouter as Router } from "react-router-dom"
 import { SnackbarProvider } from "notistack"
 import { QueryClient, QueryClientProvider } from "react-query"
-import { StoreProvider } from "../utils/Store"
+import { ThemeProvider } from "@mui/material/styles"
+import { StoreProvider } from "./js/components/utils/Store"
 import "./styles/app.css"
 import Home from "./js/components/Home"
+import theme from "./js/components/utils/theme"
 
 const queryClient = new QueryClient({
   defaultOptions: {
