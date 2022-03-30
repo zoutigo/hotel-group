@@ -1,5 +1,5 @@
-import { styled } from '@material-ui/styles'
-import { TextField } from '@material-ui/core'
+import { styled } from '@mui/styles'
+import { TextField } from '@mui/material'
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   '& .MuiFormControl-root ': {

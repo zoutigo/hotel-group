@@ -9,7 +9,6 @@ export const StyledFooter = styled('footer')(({ theme }) => ({
 
 function Footer() {
   return <StyledFooter>Footer</StyledFooter>
-  
 }
 
 export default Footer

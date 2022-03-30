@@ -24,7 +24,7 @@ const settings = [
   'Logout',
 ]
 
-const Header = () => {
+function Header() {
   const [isAuth, setIsAuth] = React.useState(false)
   const [anchorElNav, setAnchorElNav] = React.useState(null)
   const [anchorElUser, setAnchorElUser] = React.useState(null)
@@ -45,6 +45,7 @@ const Header = () => {
   }
 
   const { palette } = useTheme()
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed" sx={{ background: palette.tertiary.main }}>

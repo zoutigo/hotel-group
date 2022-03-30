@@ -1,8 +1,7 @@
 import React from 'react'
 import { styled } from '@mui/styles'
 import { Redirect, Switch, Route, Link, withRouter } from 'react-router-dom'
-import Users from './Users'
-import Posts from './Posts'
+
 import LoginPage from './routes/LoginPage'
 import RegisterPage from './routes/RegisterPage'
 import BookingPage from './routes/BookingPage'
@@ -23,8 +22,7 @@ function Body() {
     <StyledBody>
       <Switch>
         {/* <Redirect exact from="/" to="/users" /> */}
-        <Route path="/users" component={Users} />
-        <Route path="/posts" component={Posts} />
+
         <Route path="/login" component={LoginPage} />
         <Route path="/register" component={RegisterPage} />
         <Route

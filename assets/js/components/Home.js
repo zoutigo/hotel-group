@@ -15,10 +15,7 @@ const StyledHome = styled(Container)(({ theme }) => ({
   padding: '0rem 0rem',
 }))
 
-
-
-
-const Home = () => {
+function Home() {
   // const theme = useTheme()
   // const isSmallScreen = !useMediaQuery(theme.breakpoints.down("lg"))
   return (

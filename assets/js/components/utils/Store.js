@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie'
 import React, { createContext, useReducer } from 'react'
+import PropTypes from 'prop-types'
 
 export const Store = createContext()
 const initialState = {
@@ -79,8 +80,15 @@ const reducer = (state, action) => {
   }
 }
 
-export function StoreProvider(props) {
+export function StoreProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const value = { state, dispatch }
-  return <Store.Provider value={value}>{props.children} </Store.Provider>
+
+  const value = React.useCallback({ state, dispatch }[(state, dispatch)])
+
+  // const value = { state, dispatch }
+  return <Store.Provider value={value}>{children} </Store.Provider>
+}
+
+StoreProvider.propTypes = {
+  children: PropTypes.element.isRequired,
 }

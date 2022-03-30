@@ -34,7 +34,7 @@ module.exports = {
     'no-console': 0,
     'prettier/prettier': 'error',
     'func-names': 'off',
-    'no-unused-vars': 'warn',
+    'no-unused-vars': ['warn', { varsIgnorePattern: 'React' }],
     'import/no-duplicates': 'warn',
     'react/jsx-filename-extension': 'off',
     'react/jsx-props-no-spreading': 'off',
