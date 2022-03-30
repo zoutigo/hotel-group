@@ -1,6 +1,6 @@
-import React from "react"
-import { useMutation } from "react-query"
-import useMutationOptions from "./useMutationOptions"
+import React from 'react'
+import { useMutation } from 'react-query'
+import useMutationOptions from './useMutationOptions'
 
 function useMutate(queryKey, mutator) {
   const {

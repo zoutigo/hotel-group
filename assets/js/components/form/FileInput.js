@@ -1,7 +1,7 @@
-import React from "react"
-import { useController, Controller } from "react-hook-form"
-import PropTypes from "prop-types"
-import { TextField } from "@material-ui/core"
+import React from 'react'
+import { useController, Controller } from 'react-hook-form'
+import PropTypes from 'prop-types'
+import { TextField } from '@material-ui/core'
 
 function FileInput({
   control,
@@ -16,26 +16,26 @@ function FileInput({
   const {
     fieldState: { invalid, error },
   } = useController({
-    name: multiple ? "files" : "file",
+    name: multiple ? 'files' : 'file',
     control,
     defaultValue: defaultValue,
     rules: {
       validate: {
         minlenght: (value) =>
-          (value && value.length > 0) || "1 fichier au moins est requis",
+          (value && value.length > 0) || '1 fichier au moins est requis',
         maxlenght: (value) =>
           (value && value.length < 16) ||
-          "Vous ne pouvez telecharger que 15 fichiers maximum en meme temps",
+          'Vous ne pouvez telecharger que 15 fichiers maximum en meme temps',
         filesize: (value) =>
           (value && value[0].size <= 1024 * 1024 * 10) ||
-          "Chacune des images doit faire moins de 10Mo",
+          'Chacune des images doit faire moins de 10Mo',
       },
     },
   })
 
   return (
     <Controller
-      name={multiple ? "files" : "file"}
+      name={multiple ? 'files' : 'file'}
       control={control}
       render={({ field }) => (
         <TextField
@@ -64,8 +64,8 @@ function FileInput({
 }
 
 FileInput.defaultProps = {
-  defaultValue: [{ label: "", value: "" }],
-  variant: "standard",
+  defaultValue: [{ label: '', value: '' }],
+  variant: 'standard',
   multiple: false,
 }
 

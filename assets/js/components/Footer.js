@@ -1,14 +1,15 @@
-import { styled } from "@mui/styles"
-import React from "react"
+import { styled } from '@mui/styles'
+import React from 'react'
 
-export const StyledFooter = styled("footer")(({ theme }) => ({
+export const StyledFooter = styled('footer')(({ theme }) => ({
   color: theme.palette.black.main,
-  minHeight: "5vh",
-  background: "purple",
+  minHeight: '5vh',
+  background: 'purple',
 }))
 
-const Footer = () => {
+function Footer() {
   return <StyledFooter>Footer</StyledFooter>
+  
 }
 
 export default Footer

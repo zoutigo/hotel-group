@@ -1,27 +1,27 @@
-import * as React from "react"
-import AppBar from "@mui/material/AppBar"
-import Box from "@mui/material/Box"
-import Toolbar from "@mui/material/Toolbar"
-import IconButton from "@mui/material/IconButton"
-import Typography from "@mui/material/Typography"
-import Menu from "@mui/material/Menu"
-import MenuIcon from "@mui/icons-material/Menu"
-import Container from "@mui/material/Container"
-import Avatar from "@mui/material/Avatar"
-import Button from "@mui/material/Button"
-import Tooltip from "@mui/material/Tooltip"
-import MenuItem from "@mui/material/MenuItem"
+import * as React from 'react'
+import AppBar from '@mui/material/AppBar'
+import Box from '@mui/material/Box'
+import Toolbar from '@mui/material/Toolbar'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import Menu from '@mui/material/Menu'
+import MenuIcon from '@mui/icons-material/Menu'
+import Container from '@mui/material/Container'
+import Avatar from '@mui/material/Avatar'
+import Button from '@mui/material/Button'
+import Tooltip from '@mui/material/Tooltip'
+import MenuItem from '@mui/material/MenuItem'
 
-import { useTheme } from "@emotion/react"
-import ButtonPrimary from "./customs/ButtonPrimary"
+import { useTheme } from '@emotion/react'
+import ButtonPrimary from './customs/ButtonPrimary'
 
-const pages = ["Acceuil", "Etablissements", "Contact", "Réserver"]
+const pages = ['Acceuil', 'Etablissements', 'Contact', 'Réserver']
 const settings = [
-  "Mes Reservations",
-  "Gestion des suites",
-  "Gestion des établissements",
-  "Gestion des utilisateurs",
-  "Logout",
+  'Mes Reservations',
+  'Gestion des suites',
+  'Gestion des établissements',
+  'Gestion des utilisateurs',
+  'Logout',
 ]
 
 const Header = () => {
@@ -56,7 +56,7 @@ const Header = () => {
               component="div"
               sx={{
                 mr: 2,
-                display: { xs: "none", md: "flex" },
+                display: { xs: 'none', md: 'flex' },
                 color: palette.primary.main,
                 flexGrow: 1,
               }}
@@ -64,7 +64,7 @@ const Header = () => {
               Green Suits
             </Typography>
 
-            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
               <IconButton
                 size="large"
                 aria-label="account of current user"
@@ -79,18 +79,18 @@ const Header = () => {
                 id="menu-appbar"
                 anchorEl={anchorElNav}
                 anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
+                  vertical: 'bottom',
+                  horizontal: 'left',
                 }}
                 keepMounted
                 transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
+                  vertical: 'top',
+                  horizontal: 'left',
                 }}
                 open={Boolean(anchorElNav)}
                 onClose={handleCloseNavMenu}
                 sx={{
-                  display: { xs: "block", md: "none" },
+                  display: { xs: 'block', md: 'none' },
                 }}
               >
                 {pages.map((page) => (
@@ -106,7 +106,7 @@ const Header = () => {
               component="div"
               sx={{
                 flexGrow: 1,
-                display: { xs: "flex", md: "none" },
+                display: { xs: 'flex', md: 'none' },
                 color: palette.primary.main,
               }}
             >
@@ -115,9 +115,9 @@ const Header = () => {
             <Box
               sx={{
                 flexGrow: 1,
-                display: { xs: "none", md: "flex" },
-                justifyContent: "flex-end",
-                pr: "4rem",
+                display: { xs: 'none', md: 'flex' },
+                justifyContent: 'flex-end',
+                pr: '4rem',
               }}
             >
               {pages.map((page) => (
@@ -128,8 +128,8 @@ const Header = () => {
                     my: 2,
                     mx: 3,
                     color: palette.secondarytext.main,
-                    textTransform: "capitalize",
-                    display: "block",
+                    textTransform: 'capitalize',
+                    display: 'block',
                   }}
                 >
                   {page}
@@ -149,17 +149,17 @@ const Header = () => {
                   </IconButton>
                 </Tooltip>
                 <Menu
-                  sx={{ mt: "45px" }}
+                  sx={{ mt: '45px' }}
                   id="menu-appbar"
                   anchorEl={anchorElUser}
                   anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
+                    vertical: 'top',
+                    horizontal: 'right',
                   }}
                   keepMounted
                   transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
+                    vertical: 'top',
+                    horizontal: 'right',
                   }}
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}

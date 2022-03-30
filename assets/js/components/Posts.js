@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react"
-import axios from "axios"
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 
 const Posts = () => {
   const [loading, setLoading] = useState(false)
@@ -13,11 +13,7 @@ const Posts = () => {
       setPosts(posts)
       setLoading(false)
     })
-
-    return () => {
-      second
-    }
-  }, [third])
+  }, [])
 
   return (
     <div>
@@ -25,17 +21,17 @@ const Posts = () => {
         <div className="container">
           <div className="row">
             <h2 className="text-center">
-              <span>List of posts</span>Created with{" "}
-              <i className="fa fa-heart"></i> by yemiwebby{" "}
+              <span>List of posts</span>Created with{' '}
+              <i className="fa fa-heart"></i> by yemiwebby{' '}
             </h2>
           </div>
 
           {loading ? (
-            <div className={"row text-center"}>
+            <div className={'row text-center'}>
               <span className="fa fa-spin fa-spinner fa-4x"></span>
             </div>
           ) : (
-            <div className={"row"}>
+            <div className={'row'}>
               {posts.map((post) => (
                 <div className="col-md-10 offset-md-1 row-block" key={post.id}>
                   <ul id="sortable">

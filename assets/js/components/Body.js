@@ -1,24 +1,24 @@
-import React from "react"
-import { Redirect, Switch, Route, Link, withRouter } from "react-router-dom"
-import Users from "./Users"
-import Posts from "./Posts"
-import LoginPage from "./routes/LoginPage"
-import RegisterPage from "./routes/RegisterPage"
-import BookingPage from "./routes/BookingPage"
-import ContactPage from "./routes/ContactPage"
-import EtablissementListPage from "./routes/EtablissementListPage"
-import EtablissementPage from "./routes/EtablissementPage"
-import AccountPage from "./routes/AccountPage"
-import BookingListPage from "./routes/BookingListPage"
-import LandingPage from "./routes/LandingPage"
-import { styled } from "@mui/styles"
+import React from 'react'
+import { styled } from '@mui/styles'
+import { Redirect, Switch, Route, Link, withRouter } from 'react-router-dom'
+import Users from './Users'
+import Posts from './Posts'
+import LoginPage from './routes/LoginPage'
+import RegisterPage from './routes/RegisterPage'
+import BookingPage from './routes/BookingPage'
+import ContactPage from './routes/ContactPage'
+import EtablissementListPage from './routes/EtablissementListPage'
+import EtablissementPage from './routes/EtablissementPage'
+import AccountPage from './routes/AccountPage'
+import BookingListPage from './routes/BookingListPage'
+import LandingPage from './routes/LandingPage'
 
-export const StyledBody = styled("main")(({ theme }) => ({
-  background: "pink",
-  minHeight: "92vh",
+export const StyledBody = styled('main')(({ theme }) => ({
+  background: 'pink',
+  minHeight: '92vh',
 }))
 
-const Body = () => {
+function Body() {
   return (
     <StyledBody>
       <Switch>

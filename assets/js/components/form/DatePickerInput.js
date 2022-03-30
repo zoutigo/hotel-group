@@ -1,7 +1,7 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { useController } from "react-hook-form"
-import { DatePicker } from "@material-ui/pickers"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { useController } from 'react-hook-form'
+import { DatePicker } from '@material-ui/pickers'
 
 function DatePickerInput({
   control,
@@ -40,14 +40,14 @@ function DatePickerInput({
       error={invalid}
       helperText={invalid ? error.message : example}
       {...rest}
-      style={{ width: "100%" }}
+      style={{ width: '100%' }}
     />
   )
 }
 
 DatePickerInput.defaultProps = {
   defaultValue: new Date(),
-  variant: "standard",
+  variant: 'standard',
 }
 
 DatePickerInput.propTypes = {
