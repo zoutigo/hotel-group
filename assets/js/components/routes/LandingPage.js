@@ -1,7 +1,7 @@
-import React from "react"
+import React from 'react'
 
 function LandingPage() {
-  return <div>LandingPage</div>
+  return <div style={{ background: 'yellow' }}>LandingPage</div>
 }
 
 export default LandingPage

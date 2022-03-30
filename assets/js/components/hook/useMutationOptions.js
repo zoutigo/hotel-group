@@ -1,5 +1,5 @@
-import React from "react"
-import { useQueryClient } from "react-query"
+import React from 'react'
+import { useQueryClient } from 'react-query'
 
 function useMutationOptions(queryKey) {
   const queryClient = useQueryClient()

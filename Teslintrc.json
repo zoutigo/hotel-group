@@ -1,0 +1,103 @@
+// {
+//   "env": {
+//       "browser": true,
+//       "commonjs": true,
+//       "es6": true
+//   },
+//   "parser": "babel-eslint",
+//   "extends": [
+//       "eslint:recommended",
+//       "airbnb",
+//       "airbnb/hooks",
+//       "plugin:react/recommended",
+//       "plugin:import/errors",
+//       "plugin:import/warnings",
+//       "plugin:jsx-a11y/recommended"
+//   ],
+//   "globals": {
+//       "Atomics": "readonly",
+//       "SharedArrayBuffer": "readonly"
+//   },
+//   "parserOptions": {
+//       "ecmaFeatures": {
+//           "jsx": true
+//       },
+//       "ecmaVersion": 11,
+//       "sourceType": "module"
+//   },
+//   "settings": {
+//       "react": {
+//           "version": "detect"
+//       }
+//   },
+//   "plugins": [
+//       "react",
+//       "react-hooks"
+//   ],
+//   "rules": {
+//       "react/react-in-jsx-scope": "off",
+//       "react/jsx-filename-extension": [
+//           1,
+//           {
+//               "extensions": [
+//                   ".js",
+//                   ".jsx"
+//               ]
+//           }
+//       ],
+//       "react/display-name": 1
+//   }
+// }
+
+{
+
+    "extends": [
+        "airbnb", 
+        "prettier",
+        "plugin:react/recommended",
+        "plugin:react/jsx-runtime"       
+    ],  
+    "plugins": ["prettier"],
+    "globals": {
+      "fetch": false,
+      "FormData": false,
+      "Headers": false,
+      "FileReader": false
+    },
+  
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+           "requireConfigFile": false,
+           "babelOptions": {
+            "presets": ["@babel/preset-react"]
+         }
+         },
+    "settings": {
+        "import/parsers": {
+          "espree": [
+            ".js",
+            ".jsx"
+          ]
+        }
+      },
+      
+    
+    "rules": {
+      "prettier/prettier": "error",
+      "func-names": "off",
+      "no-unused-vars": "warn",
+      "import/no-duplicates": "warn",
+      "react/jsx-filename-extension": "off",
+      "react/jsx-props-no-spreading": "off",
+      "object-shorthand": "off",
+      "no-underscore-dangle": "off"
+    },
+    "env": {
+      "browser": true,
+      "node": true,
+      "jasmine": true
+    },
+    "root": true
+   
+  }
+  
