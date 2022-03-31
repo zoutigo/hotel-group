@@ -69,6 +69,11 @@ Encore
   // })
   .enableEslintPlugin()
 
+  .copyFiles({
+    from: './assets/images',
+    to: '/images/[path][name].[hash:8].[ext]',
+  })
+
 // uncomment to get integrity="..." attributes on your script & link tags
 // requires WebpackEncoreBundle 1.4 or higher
 //.enableIntegrityHashes(Encore.isProduction())

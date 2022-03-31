@@ -13,8 +13,12 @@ import BookingListPage from './routes/BookingListPage'
 import LandingPage from './routes/LandingPage'
 
 export const StyledBody = styled('main')(({ theme }) => ({
-  background: 'pink',
+  background: theme.palette.tertiary.main,
   minHeight: '92vh',
+  paddingTop: '5rem',
+  [theme.breakpoints.up('lg')]: {
+    padding: '5.5rem 9.5% 0 9.5%',
+  },
 }))
 
 function Body() {
