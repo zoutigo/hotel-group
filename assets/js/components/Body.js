@@ -3,6 +3,7 @@ import { styled } from '@mui/styles'
 import { Redirect, Switch, Route, Link, withRouter } from 'react-router-dom'
 import { Grid } from '@mui/material'
 import pages from './constants/pages'
+import getRandomKey from './utils/getRandomkey'
 
 const StyledBody = styled(Grid)(() => ({
   minHeight: '92vh',
@@ -14,7 +15,7 @@ function Body() {
       <Switch>
         {/* <Redirect exact from="/" to="/users" /> */}
         {pages.map((route) => (
-          <Route key={route.path} {...route} exact />
+          <Route key={getRandomKey(999999)} {...route} exact />
         ))}
       </Switch>
     </StyledBody>

@@ -41,7 +41,7 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   },
 }))
 
-function LandingBottomCard({ image, name, description }) {
+function SmallCard({ image, name, description, city, variant }) {
   const { image: pic } = useImage(image)
   return (
     <StyledGrid item container xs={12} md={3}>
@@ -49,8 +49,20 @@ function LandingBottomCard({ image, name, description }) {
         <img src={pic} alt={name} />
       </Box>
       <Box className="title">
-        <StyledNameTypo variant="h4">{name}</StyledNameTypo>
+        <StyledNameTypo
+          variant="h4"
+          sx={{
+            textTransform: variant !== 'homepage' ? 'uppercase' : 'capitalize',
+          }}
+        >
+          {name}
+        </StyledNameTypo>
       </Box>
+      {city && (
+        <Box className="title">
+          <StyledNameTypo variant="h4">{city}</StyledNameTypo>
+        </Box>
+      )}
       <Box className="description">
         <StyledDescriptionTypo variant="caption">
           {description}
@@ -60,10 +72,17 @@ function LandingBottomCard({ image, name, description }) {
   )
 }
 
-LandingBottomCard.propTypes = {
+SmallCard.defaultProps = {
+  city: null,
+  variant: 'homepage',
+}
+
+SmallCard.propTypes = {
   image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  city: PropTypes.string,
+  variant: PropTypes.string,
 }
 
-export default LandingBottomCard
+export default SmallCard

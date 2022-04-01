@@ -1,9 +1,9 @@
 import { Box, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/styles'
 import React from 'react'
+import SmallCard from '../customs/CardSmall'
 import StyledGridSection from '../customs/StyledGridSection'
 import getRandomKey from '../utils/getRandomkey'
-import LandingBottomCard from './LandingBottomCard'
 
 const StyledLandingBottomGrid = styled(StyledGridSection)(({ theme }) => ({
   background: theme.palette.white.main,
@@ -54,7 +54,7 @@ function LandingBottom() {
       </Grid>
       <Grid item container justifyContent="space-evenly" spacing={2}>
         {features.map((feature) => (
-          <LandingBottomCard key={getRandomKey(9999)} {...feature} />
+          <SmallCard key={getRandomKey(9999)} {...feature} />
         ))}
       </Grid>
     </StyledLandingBottomGrid>
