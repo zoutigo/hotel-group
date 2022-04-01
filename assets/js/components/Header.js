@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 
 import { useTheme } from '@emotion/react'
-import ButtonPrimary from './customs/ButtonPrimary'
+import ButtonNavbar from './customs/ButtonNavBar'
 
 const pages = ['Acceuil', 'Etablissements', 'Contact', 'Réserver']
 const settings = [
@@ -138,7 +138,7 @@ function Header() {
               ))}
             </Box>
             {!isAuth ? (
-              <ButtonPrimary>Se Connecter</ButtonPrimary>
+              <ButtonNavbar>Se Connecter</ButtonNavbar>
             ) : (
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">

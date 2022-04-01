@@ -5,11 +5,15 @@ import { Button } from '@mui/material'
 
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.white.main,
-  backgroundColor: theme.palette.black.main,
+  background: theme.palette.primary.main,
   textTransform: 'capitalize',
+  padding: '0.5rem',
   '&:hover': {
     backgroundColor: theme.palette.secondary.main,
     color: theme.palette.primarytext.main,
+  },
+  [theme.breakpoints.down('md')]: {
+    width: '100%',
   },
 }))
 

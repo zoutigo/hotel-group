@@ -1,6 +1,7 @@
 import React from 'react'
 import { styled } from '@mui/styles'
 import { Redirect, Switch, Route, Link, withRouter } from 'react-router-dom'
+import { Grid } from '@mui/material'
 
 import LoginPage from './routes/LoginPage'
 import RegisterPage from './routes/RegisterPage'
@@ -12,8 +13,7 @@ import AccountPage from './routes/AccountPage'
 import BookingListPage from './routes/BookingListPage'
 import LandingPage from './routes/LandingPage'
 
-export const StyledBody = styled('main')(({ theme }) => ({
-  background: 'pink',
+const StyledBody = styled(Grid)(() => ({
   minHeight: '92vh',
 }))
 
