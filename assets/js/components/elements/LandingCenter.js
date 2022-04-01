@@ -1,11 +1,13 @@
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/styles'
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 import ButtonPrimary from '../customs/ButtonPrimary'
 import getRandomKey from '../utils/getRandomkey'
 import LandingCenterCard from './LandingCenterCard'
 import image from '../../../images/donalg.jpg'
 import StyledGridSection from '../customs/StyledGridSection'
+import StyledNavLink from '../customs/StyledNavLink'
 
 const StyledTextGrid = styled(Grid)(({ theme }) => ({
   '& >div': {
@@ -56,6 +58,7 @@ const statistics = [
 function LandingCenter() {
   return (
     <StyledLandingCenterGrid istopsection="yes">
+      <NavLink to="/liste-des-etablissements">Etablissements</NavLink>
       <Grid container spacing={1}>
         <Grid item xs={12} md={7}>
           <StyledTextGrid container>
@@ -82,9 +85,11 @@ function LandingCenter() {
       </Grid>
 
       <Grid container mt={6}>
-        <ButtonPrimary path="/etablissement" type="button">
-          Trouvez un établissement
-        </ButtonPrimary>
+        <StyledNavLink to="/liste-des-etablissements">
+          <ButtonPrimary path="/liste-des-etablissements" type="button">
+            Trouvez un établissement
+          </ButtonPrimary>
+        </StyledNavLink>
       </Grid>
     </StyledLandingCenterGrid>
   )

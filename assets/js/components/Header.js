@@ -14,15 +14,19 @@ import MenuItem from '@mui/material/MenuItem'
 
 import { useTheme } from '@emotion/react'
 import ButtonNavbar from './customs/ButtonNavBar'
+import StyledNavLink from './customs/StyledNavLink'
+import pages from './constants/pages'
 
-const pages = ['Acceuil', 'Etablissements', 'Contact', 'Réserver']
-const settings = [
-  'Mes Reservations',
-  'Gestion des suites',
-  'Gestion des établissements',
-  'Gestion des utilisateurs',
-  'Logout',
-]
+const routesExclusions = ['/liste-des-etablissements/slug', '/register']
+const settingsEclusions = []
+
+const routes = pages.filter(
+  (route) => route.access === 'public' && !routesExclusions.includes(route.path)
+)
+const settings = pages.filter(
+  (route) =>
+    route.access !== 'public' && !settingsEclusions.includes(route.path)
+)
 
 function Header() {
   const [isAuth, setIsAuth] = React.useState(false)
@@ -94,9 +98,11 @@ function Header() {
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-                {pages.map((page) => (
+                {routes.map((page) => (
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
+                    <StyledNavLink to={page.path}>
+                      <Typography textAlign="center">{page.name}</Typography>
+                    </StyledNavLink>
                   </MenuItem>
                 ))}
               </Menu>
@@ -121,24 +127,27 @@ function Header() {
                 pr: '4rem',
               }}
             >
-              {pages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{
-                    my: 2,
-                    mx: 3,
-                    color: palette.secondarytext.main,
-                    textTransform: 'capitalize',
-                    display: 'block',
-                  }}
-                >
-                  {page}
-                </Button>
+              {routes.map((page) => (
+                <StyledNavLink key={page.path} to={page.path}>
+                  <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{
+                      my: 2,
+                      mx: 3,
+                      color: palette.secondarytext.main,
+                      textTransform: 'capitalize',
+                      display: 'block',
+                    }}
+                  >
+                    {page.name}
+                  </Button>
+                </StyledNavLink>
               ))}
             </Box>
             {!isAuth ? (
-              <ButtonNavbar>Se Connecter</ButtonNavbar>
+              <StyledNavLink to="/login">
+                <ButtonNavbar>Se Connecter</ButtonNavbar>
+              </StyledNavLink>
             ) : (
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">

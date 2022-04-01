@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Box } from '@mui/material'
+import { Box } from '@mui/material'
 import { styled } from '@mui/styles'
 import Header from './Header'
 import Body from './Body'
