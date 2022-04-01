@@ -12,6 +12,9 @@ const ColorButton = styled(Button)(({ theme }) => ({
     backgroundColor: theme.palette.secondary.main,
     color: theme.palette.primarytext.main,
   },
+  [theme.breakpoints.down('md')]: {
+    width: '100%',
+  },
 }))
 
 function ButtonPrimary({ children, ...rest }) {

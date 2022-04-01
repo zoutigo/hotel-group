@@ -46,10 +46,18 @@ const initialTheme = createTheme({
       margin: '1rem 0',
     },
     body2: {
+      // paragraph small
       fontSize: '0.875rem',
       lineHeight: 1.6,
       fontWeight: 'normal',
       margin: '1rem 0',
+    },
+    subtitle1: {
+      fontSize: '1rem',
+      lineHeight: 1.2,
+      fontWeight: 'normal',
+      margin: '1rem 0',
+      color: '#525560',
     },
   },
   palette: {
