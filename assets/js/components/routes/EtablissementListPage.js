@@ -1,17 +1,12 @@
-import { Grid, styled } from '@mui/material'
+import { Grid } from '@mui/material'
+import { useTheme } from '@mui/styles'
 import React from 'react'
 import Bread from '../customs/Bread'
 import SmallCard from '../customs/CardSmall'
-import StyledGridSection from '../customs/StyledGridSection'
+import StyledPage from '../customs/StyledPage'
+import StyledSection from '../customs/StyledSection'
 import EtablissementsListForm from '../elements/EtablissementsListForm'
 import getRandomKey from '../utils/getRandomkey'
-
-const StyledLandingCenterGrid = styled(StyledGridSection)(({ theme }) => ({
-  background: theme.palette.white.main,
-  [theme.breakpoints.down('lg')]: {
-    paddingLeft: '1rem',
-  },
-}))
 
 const etablissements = [
   {
@@ -45,18 +40,21 @@ const etablissements = [
 ]
 
 function EtablissementListPage() {
+  const { palette } = useTheme()
   return (
-    <StyledLandingCenterGrid container spacing={1} pt={8}>
-      <Bread title="etablissements" />
-      <Grid item container>
-        <EtablissementsListForm />
-      </Grid>
-      <Grid item container justifyContent="space-evenly" spacing={2}>
-        {etablissements.map((etab) => (
-          <SmallCard key={getRandomKey(9999)} {...etab} variant="etab" />
-        ))}
-      </Grid>
-    </StyledLandingCenterGrid>
+    <StyledPage>
+      <StyledSection background={palette.white.main}>
+        <Bread title="etablissements" />
+        <Grid item container>
+          <EtablissementsListForm />
+        </Grid>
+        <Grid item container justifyContent="space-evenly" spacing={2}>
+          {etablissements.map((etab) => (
+            <SmallCard key={getRandomKey(9999)} {...etab} variant="etab" />
+          ))}
+        </Grid>
+      </StyledSection>
+    </StyledPage>
   )
 }
 

@@ -1,14 +1,15 @@
-import { Grid } from '@mui/material'
 import React from 'react'
+
+import StyledPage from '../customs/StyledPage'
 import LandingBottom from '../elements/LandingBottom'
 import LandingCenter from '../elements/LandingCenter'
 
 function LandingPage() {
   return (
-    <Grid container spacing={1} pt={8}>
+    <StyledPage>
       <LandingCenter />
       <LandingBottom />
-    </Grid>
+    </StyledPage>
   )
 }
 

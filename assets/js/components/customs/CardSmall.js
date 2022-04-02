@@ -13,6 +13,9 @@ const StyledDescriptionTypo = styled(Typography)(({ theme }) => ({
   color: theme.palette.secondarytext.main,
 }))
 const StyledGrid = styled(Grid)(({ theme }) => ({
+  '& >div': {
+    width: '100%',
+  },
   [theme.breakpoints.up('lg')]: {
     maxWidth: 345,
   },

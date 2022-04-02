@@ -1,13 +1,10 @@
 import { Box, Grid, Typography } from '@mui/material'
-import { styled } from '@mui/styles'
+import { useTheme } from '@mui/styles'
 import React from 'react'
-import SmallCard from '../customs/CardSmall'
-import StyledGridSection from '../customs/StyledGridSection'
-import getRandomKey from '../utils/getRandomkey'
 
-const StyledLandingBottomGrid = styled(StyledGridSection)(({ theme }) => ({
-  background: theme.palette.white.main,
-}))
+import SmallCard from '../customs/CardSmall'
+import StyledSection from '../customs/StyledSection'
+import getRandomKey from '../utils/getRandomkey'
 
 const features = [
   {
@@ -37,8 +34,9 @@ const features = [
 ]
 
 function LandingBottom() {
+  const { palette } = useTheme()
   return (
-    <StyledLandingBottomGrid container>
+    <StyledSection background={palette.white.main}>
       <Grid item container justifyContent="center">
         <Typography variant="h1">Pourquoi réserver chez nous</Typography>
       </Grid>
@@ -57,7 +55,7 @@ function LandingBottom() {
           <SmallCard key={getRandomKey(9999)} {...feature} />
         ))}
       </Grid>
-    </StyledLandingBottomGrid>
+    </StyledSection>
   )
 }
 

@@ -1,10 +1,14 @@
-import { Grid, TextField } from '@mui/material'
+import { Grid, TextField, useMediaQuery } from '@mui/material'
+import { useTheme } from '@mui/styles'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import SearchIcon from '@mui/icons-material/Search'
 import ButtonPrimary from '../customs/ButtonPrimary'
 import StyledForm from '../customs/StyledForm'
 
 function EtablissementsListForm() {
+  const theme = useTheme()
+  const matches = useMediaQuery(theme.breakpoints.down('sm'))
   const {
     control,
     handleSubmit,
@@ -19,7 +23,7 @@ function EtablissementsListForm() {
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
-      <Grid item container alignItems="center">
+      <Grid item container alignItems="center" spacing={2}>
         <Grid item xs={9}>
           <Controller
             name="email"
@@ -49,12 +53,12 @@ function EtablissementsListForm() {
         </Grid>
         <Grid item xs={3}>
           <ButtonPrimary
-            // startIcon={<SearchIcon />}
+            startIcon={matches ? <SearchIcon /> : null}
             fullWidth
             type="submit"
             disabled={isSubmitting}
           >
-            Rechercher
+            {matches ? '' : 'Rechercher'}
           </ButtonPrimary>
         </Grid>
       </Grid>

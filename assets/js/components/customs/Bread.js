@@ -10,7 +10,6 @@ const StyledTypo = styled(Typography)(({ theme }) => ({
 }))
 
 const StyledGrid = styled(Grid)(() => ({
-  paddingTop: '15rem ',
   alignItems: 'center',
   '& span': {
     width: '3rem',
