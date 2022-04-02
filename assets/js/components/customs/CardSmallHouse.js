@@ -46,8 +46,8 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   },
 }))
 
-function SmallCard({ feature }) {
-  const { image, name, description } = feature
+function CardSmallHouse({ house }) {
+  const { name, description, image, city, slug } = house
   const { image: pic } = useImage(image)
   return (
     <StyledGrid item container xs={12} md={3}>
@@ -65,21 +65,56 @@ function SmallCard({ feature }) {
         </StyledNameTypo>
       </Box>
 
+      <Box className="title">
+        <StyledNameTypo variant="h4">{city}</StyledNameTypo>
+      </Box>
+
       <Box className="description">
         <StyledDescriptionTypo variant="caption">
           {description}
         </StyledDescriptionTypo>
       </Box>
+
+      <StyledNavLink
+        to={{
+          pathname: `/liste-des-etablissements/${slug}`,
+          state: {
+            house,
+          },
+        }}
+      >
+        <ButtonSecondary fullWidth>En savoir plus ++</ButtonSecondary>
+      </StyledNavLink>
     </StyledGrid>
   )
 }
 
-SmallCard.propTypes = {
-  feature: PropTypes.exact({
+CardSmallHouse.propTypes = {
+  house: PropTypes.exact({
+    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
+    address: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
+    city: PropTypes.string.isRequired,
+    slug: PropTypes.string.isRequired,
+    suits: PropTypes.arrayOf(
+      PropTypes.exact({
+        id: PropTypes.number.isRequired,
+        price: PropTypes.number.isRequired,
+        banner: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
+        booking: PropTypes.string.isRequired,
+        images: PropTypes.arrayOf(
+          PropTypes.exact({
+            alt: PropTypes.string.isRequired,
+            url: PropTypes.string.isRequired,
+          })
+        ).isRequired,
+      })
+    ).isRequired,
   }).isRequired,
 }
 
-export default SmallCard
+export default CardSmallHouse

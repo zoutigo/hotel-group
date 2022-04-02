@@ -14,6 +14,7 @@ function Body() {
     <StyledBody>
       <Switch>
         {/* <Redirect exact from="/" to="/users" /> */}
+
         {pages.map((route) => (
           <Route key={getRandomKey(999999)} {...route} exact />
         ))}

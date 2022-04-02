@@ -16,11 +16,11 @@ function CardSuit({ name, description, price, images }) {
         </Grid>
         <Grid item xs={12} md={8}>
           <Grid item container>
-            Description
+            {description}
           </Grid>
           <Grid item container>
             <Grid item xs={5}>
-              price{' '}
+              {price}
             </Grid>
             <Grid item xs={7}>
               Button{' '}
@@ -42,7 +42,7 @@ CardSuit.propTypes = {
   price: PropTypes.number.isRequired,
   images: PropTypes.arrayOf(
     PropTypes.exact({
-      name: PropTypes.string.isRequired,
+      alt: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
     })
   ),
