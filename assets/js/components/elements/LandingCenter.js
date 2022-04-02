@@ -1,11 +1,13 @@
 import { Grid, Typography } from '@mui/material'
-import { styled } from '@mui/styles'
+import { styled, useTheme } from '@mui/styles'
 import React from 'react'
 import ButtonPrimary from '../customs/ButtonPrimary'
 import getRandomKey from '../utils/getRandomkey'
 import LandingCenterCard from './LandingCenterCard'
 import image from '../../../images/donalg.jpg'
-import StyledGridSection from '../customs/StyledGridSection'
+import StyledNavLink from '../customs/StyledNavLink'
+import useStyles from '../../style'
+import StyledSection from '../customs/StyledSection'
 
 const StyledTextGrid = styled(Grid)(({ theme }) => ({
   '& >div': {
@@ -23,7 +25,7 @@ const StyledImageContainer = styled(Grid)(({ theme }) => ({
   borderRadius: '9px',
 
   '& img': {
-    width: '35vw',
+    width: '33vw',
     height: '53vh',
     objectFit: 'cover',
     objectPosition: 'bottom left',
@@ -31,8 +33,7 @@ const StyledImageContainer = styled(Grid)(({ theme }) => ({
   },
 }))
 
-const StyledLandingCenterGrid = styled(StyledGridSection)(({ theme }) => ({
-  background: theme.palette.tertiary.main,
+const StyledSectionChanged = styled(Grid)(({ theme }) => ({
   [theme.breakpoints.down('lg')]: {
     paddingLeft: '1rem',
   },
@@ -54,10 +55,18 @@ const statistics = [
 ]
 
 function LandingCenter() {
+  const { palette } = useTheme()
   return (
-    <StyledLandingCenterGrid istopsection="yes">
-      <Grid container spacing={1}>
-        <Grid item xs={12} md={7}>
+    <StyledSection background={palette.tertiary.main}>
+      <Grid container>
+        <Grid
+          item
+          container
+          xs={12}
+          md={7}
+          flexDirection="column"
+          justifyContent="space-between"
+        >
           <StyledTextGrid container>
             <Grid item xs={12}>
               <Typography variant="h1">Nos suites garantissent</Typography>
@@ -69,7 +78,7 @@ function LandingCenter() {
               <Typography variant="h1">Eco responsable</Typography>
             </Grid>
           </StyledTextGrid>
-          <Grid container mt={11} justifyContent="space-between">
+          <Grid container justifyContent="space-between">
             {statistics.map((stat) => (
               <LandingCenterCard key={getRandomKey(99999)} {...stat} />
             ))}
@@ -81,12 +90,14 @@ function LandingCenter() {
         </StyledImageContainer>
       </Grid>
 
-      <Grid container mt={6}>
-        <ButtonPrimary path="/etablissement" type="button">
-          Trouvez un établissement
-        </ButtonPrimary>
+      <Grid container mt={10}>
+        <StyledNavLink to="/liste-des-etablissements">
+          <ButtonPrimary path="/liste-des-etablissements" type="button">
+            Trouvez un établissement
+          </ButtonPrimary>
+        </StyledNavLink>
       </Grid>
-    </StyledLandingCenterGrid>
+    </StyledSection>
   )
 }
 

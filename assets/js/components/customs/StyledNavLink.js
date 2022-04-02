@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 
 const StyledNavLink = styled(NavLink)(() => ({
   color: 'inherit',
-  textDecoration: 'none',
+  textDecoration: 'none !important',
   background: 'inherit',
 }))
 
