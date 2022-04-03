@@ -4,6 +4,7 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import Bread from '../customs/Bread'
 import CardSuit from '../customs/CardSuit'
+
 import StyledPage from '../customs/StyledPage'
 import StyledSection from '../customs/StyledSection'
 
@@ -29,11 +30,11 @@ function EtablissementPage() {
           <Typography variant="body1">{description}</Typography>
         </Grid>
       </StyledSection>
-      <StyledSection background={palette.white.main}>
-        {suits.map((suit) => (
+      {suits.map((suit) => (
+        <StyledSection key={suit.id} background={palette.tertiary.main}>
           <CardSuit suit={suit} key={suit.id} />
-        ))}
-      </StyledSection>
+        </StyledSection>
+      ))}
     </StyledPage>
   )
 }

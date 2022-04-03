@@ -9,8 +9,9 @@ import ButtonPrimary from './ButtonPrimary'
 import getRandomKey from '../utils/getRandomkey'
 import ModalImage from './ModalImage'
 import Image from './Image'
+import StyledSection from './StyledSection'
 
-const StyledGrid = styled(Grid)(() => ({
+const StyledGrid = styled(Grid)(({ theme }) => ({
   '& .card-suit-media': {
     '& img': {
       width: '100%',
