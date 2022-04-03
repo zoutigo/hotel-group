@@ -52,7 +52,7 @@ function LandingBottom() {
       </Grid>
       <Grid item container justifyContent="space-evenly" spacing={2}>
         {features.map((feature) => (
-          <SmallCard key={getRandomKey(9999)} {...feature} />
+          <SmallCard key={getRandomKey(9999)} feature={feature} />
         ))}
       </Grid>
     </StyledSection>

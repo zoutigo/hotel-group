@@ -18,7 +18,6 @@ const initialTheme = createTheme({
       fontSize: '1.75rem',
       lineHeight: 1.5,
       fontWeight: 'bold',
-      fontFamily: 'Montserrat Subrayada',
       margin: '1rem 0',
     },
     h4: {

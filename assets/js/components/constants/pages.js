@@ -24,7 +24,7 @@ const pages = [
   },
   {
     name: 'Etablissement',
-    path: '/liste-des-etablissements/slug',
+    path: '/liste-des-etablissements/:slug',
     access: 'public',
     component: EtablissementPage,
   },
