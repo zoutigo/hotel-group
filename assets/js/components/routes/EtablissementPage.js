@@ -31,11 +31,11 @@ function EtablissementPage() {
       </StyledSection>
       <StyledSection background={palette.white.main}>
         {suits.map((suit) => (
-          <CardSuit {...suit} key={suit.id} />
+          <CardSuit suit={suit} key={suit.id} />
         ))}
       </StyledSection>
     </StyledPage>
   )
 }
 
-export default EtablissementPage
+export default React.memo(EtablissementPage)

@@ -16,6 +16,12 @@ const useStyles = makeStyles((theme) =>
         paddingRight: '9.5%',
       },
     },
+    textJustify: {
+      textAlign: 'justify',
+    },
+    textCenter: {
+      textAlign: 'center',
+    },
   })
 )
 

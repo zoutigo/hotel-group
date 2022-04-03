@@ -6,7 +6,6 @@ import getRandomKey from '../utils/getRandomkey'
 import LandingCenterCard from './LandingCenterCard'
 import image from '../../../images/donalg.jpg'
 import StyledNavLink from '../customs/StyledNavLink'
-import useStyles from '../../style'
 import StyledSection from '../customs/StyledSection'
 
 const StyledTextGrid = styled(Grid)(({ theme }) => ({

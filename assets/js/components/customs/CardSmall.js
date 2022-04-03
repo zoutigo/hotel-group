@@ -5,8 +5,6 @@ import PropTypes from 'prop-types'
 import { Box, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/styles'
 import useImage from '../hook/useImage'
-import ButtonSecondary from './ButtonSecondary'
-import StyledNavLink from './StyledNavLink'
 
 const StyledNameTypo = styled(Typography)(({ theme }) => ({
   color: theme.palette.primarytext.main,

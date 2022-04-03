@@ -71,7 +71,7 @@ function CardSmallHouse({ house }) {
 
       <Box className="description">
         <StyledDescriptionTypo variant="caption">
-          {description}
+          {description.substring(0, 200)}
         </StyledDescriptionTypo>
       </Box>
 
