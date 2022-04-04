@@ -1,8 +1,10 @@
+/* eslint-disable react/jsx-no-constructed-context-values */
 import Cookies from 'js-cookie'
-import React, { createContext, useReducer } from 'react'
+import React, { createContext, useCallback, useReducer } from 'react'
 import PropTypes from 'prop-types'
 
 export const Store = createContext()
+
 const initialState = {
   smallNav: Cookies.get('smallNav') === 'ON',
   darkMode: Cookies.get('darkMode') === 'ON',
@@ -80,15 +82,14 @@ const reducer = (state, action) => {
   }
 }
 
-export function StoreProvider({ children }) {
+export function AppStateProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  const value = React.useCallback({ state, dispatch }[(state, dispatch)])
-
-  // const value = { state, dispatch }
+  // const value = React.useCallback({ state, dispatch }[(state, dispatch)])
+  const value = { state, dispatch }
   return <Store.Provider value={value}>{children} </Store.Provider>
 }
 
-StoreProvider.propTypes = {
+AppStateProvider.propTypes = {
   children: PropTypes.element.isRequired,
 }

@@ -4,10 +4,10 @@ import { TextField } from '@mui/material'
 const StyledTextField = styled(TextField)(({ theme }) => ({
   '& .MuiFormControl-root ': {
     background: 'transparent',
-    width: '100%',
+    width: '50%',
     '& .MuiInput-root': {
       height: '2.2rem',
-      width: '85%',
+      width: '50%',
       paddingTop: '0.6rem',
       fontSize: '1rem',
     },

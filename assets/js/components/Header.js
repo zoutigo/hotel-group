@@ -17,9 +17,13 @@ import ButtonNavbar from './customs/ButtonNavBar'
 import StyledNavLink from './customs/StyledNavLink'
 import pages from './constants/pages'
 
-const routesExclusions = ['/liste-des-etablissements/slug', '/register']
+const routesExclusions = [
+  '/liste-des-etablissements/slug',
+  '/register',
+  '/login',
+]
 const settingsEclusions = []
-
+const loginRoute = pages.find((page) => page.path === '/login')
 const routes = pages.filter(
   (route) => route.access === 'public' && !routesExclusions.includes(route.path)
 )
@@ -145,8 +149,12 @@ function Header() {
               ))}
             </Box>
             {!isAuth ? (
-              <StyledNavLink to="/login">
-                <ButtonNavbar>Se Connecter</ButtonNavbar>
+              <StyledNavLink
+                to={{
+                  pathname: loginRoute.path,
+                }}
+              >
+                <ButtonNavbar>{loginRoute.name}</ButtonNavbar>
               </StyledNavLink>
             ) : (
               <Box sx={{ flexGrow: 0 }}>
