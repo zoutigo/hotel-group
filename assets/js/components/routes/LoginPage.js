@@ -1,8 +1,8 @@
-import { List, ListItem } from '@mui/material'
+import { List, ListItem, Typography } from '@mui/material'
 import { useTheme } from '@mui/styles'
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useSnackbar } from 'notistack'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import Cookies from 'js-cookie'
 import StyledForm from '../customs/StyledForm'
@@ -17,8 +17,10 @@ import useStyles from '../../style'
 import ButtonPrimary from '../customs/ButtonPrimary'
 import Bread from '../customs/Bread'
 import PageTitle from '../customs/PageTitle'
+import StyledNavLink from '../customs/StyledNavLink'
 
 function LoginPage() {
+  const location = useLocation()
   const classes = useStyles()
   const { palette } = useTheme()
   const history = useHistory()
@@ -40,7 +42,8 @@ function LoginPage() {
         if (response && response.status === 200) {
           dispatch({ type: 'USER_LOGIN', payload: response.data })
           Cookies.set('userInfo', JSON.stringify(response.data))
-          history.push('/')
+          const { from } = location.state || { from: { pathname: '/' } }
+          history.replace(from)
         }
       })
     } catch (err) {
@@ -109,6 +112,18 @@ function LoginPage() {
             </ListItem>
             <ListItem>
               <ButtonPrimary disabled={isMutating}>Se Connecter</ButtonPrimary>
+            </ListItem>
+            <ListItem>
+              <Typography variant="body1">Pas encore de compte ? </Typography>
+              &nbsp;&nbsp;&nbsp;
+              <StyledNavLink
+                to={{
+                  pathname: '/register',
+                  from: pathname,
+                }}
+              >
+                Inscrivez vous
+              </StyledNavLink>
             </ListItem>
           </List>
         </StyledForm>
