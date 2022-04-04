@@ -4,10 +4,11 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { SnackbarProvider } from 'notistack'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ThemeProvider } from '@mui/material/styles'
-import { StoreProvider } from './js/components/utils/Store'
+
 import './styles/app.css'
 import Home from './js/components/Home'
 import theme from './js/components/utils/theme'
+import { AppStateProvider } from './js/components/utils/Store'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,17 +23,17 @@ const queryClient = new QueryClient({
 
 render(
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider theme={theme}>
-      <SnackbarProvider
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      >
-        <StoreProvider>
+    <AppStateProvider>
+      <ThemeProvider theme={theme}>
+        <SnackbarProvider
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
           <Router>
             <Home />
           </Router>
-        </StoreProvider>
-      </SnackbarProvider>
-    </ThemeProvider>
+        </SnackbarProvider>
+      </ThemeProvider>
+    </AppStateProvider>
   </QueryClientProvider>,
 
   document.getElementById('root')

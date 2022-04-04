@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Grid, Typography } from '@mui/material'
 import { styled } from '@mui/styles'
-import { useHistory } from 'react-router-dom'
+import useStyles from '../../style'
 
 const StyledTypo = styled(Typography)(({ theme }) => ({
   color: theme.palette.secondarytext.main,
@@ -20,8 +20,9 @@ const StyledGrid = styled(Grid)(() => ({
 }))
 
 function Bread({ title }) {
+  const classes = useStyles()
   return (
-    <StyledGrid container>
+    <StyledGrid container className={classes.hideDownMd}>
       <span>&nbsp;</span>
       <StyledTypo variant="body1">{title}</StyledTypo>
     </StyledGrid>

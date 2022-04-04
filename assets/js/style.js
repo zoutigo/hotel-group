@@ -20,11 +20,32 @@ const useStyles = makeStyles((theme) =>
         padding: '0 1rem',
       },
     },
+    hideUpMd: {
+      display: 'block',
+      [theme.breakpoints.up('md')]: {
+        display: 'none !important',
+      },
+    },
+    hideDownMd: {
+      display: 'block',
+      [theme.breakpoints.down('md')]: {
+        display: 'none !important',
+      },
+    },
     textJustify: {
       textAlign: 'justify',
     },
     textCenter: {
       textAlign: 'center',
+    },
+    formList: {
+      width: '100%',
+      [theme.breakpoints.up('md')]: {
+        width: '50%',
+      },
+      '& button': {
+        width: '100%',
+      },
     },
   })
 )
