@@ -47,6 +47,10 @@ const useStyles = makeStyles((theme) =>
         width: '100%',
       },
     },
+    noclicksetting: {
+      pointerEvents: 'none !important',
+      background: `${theme.palette.secondary.main} !important`,
+    },
   })
 )
 
