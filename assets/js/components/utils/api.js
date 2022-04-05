@@ -16,3 +16,9 @@ export const apiRegister = async (datas) => {
   const response = await axios.post(URL, datas)
   return response
 }
+export const apiBookingCreate = async (datas) => {
+  const URL = `${PREFIX}/api/booking/create`
+
+  const response = await axios.post(URL, datas)
+  return response
+}

@@ -119,7 +119,7 @@ function LoginPage() {
               <StyledNavLink
                 to={{
                   pathname: '/register',
-                  from: pathname,
+                  from: location.pathname,
                 }}
               >
                 Inscrivez vous
