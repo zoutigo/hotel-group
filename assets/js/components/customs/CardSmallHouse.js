@@ -2,21 +2,28 @@
 /* eslint-disable global-require */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Grid, Typography } from '@mui/material'
+import { useLocation } from 'react-router-dom'
+import { Box, Grid, Typography, Container, Button } from '@mui/material'
 import { styled } from '@mui/styles'
 import useImage from '../hook/useImage'
 import ButtonSecondary from './ButtonSecondary'
 import StyledNavLink from './StyledNavLink'
+import ButtonUpdate from './ButtonUpdate'
+import ButtonDelete from './ButtonDelete'
 
 const StyledNameTypo = styled(Typography)(({ theme }) => ({
   color: theme.palette.primarytext.main,
+}))
+const StyledCityTypo = styled(Typography)(({ theme }) => ({
+  color: theme.palette.primarytext.main,
+  opacity: 0.4,
 }))
 const StyledDescriptionTypo = styled(Typography)(({ theme }) => ({
   color: theme.palette.secondarytext.main,
 }))
 const StyledGrid = styled(Grid)(({ theme }) => ({
   '& >div': {
-    width: '100%',
+    background: theme.palette.tertiary.main,
   },
   [theme.breakpoints.up('lg')]: {
     maxWidth: 345,
@@ -26,14 +33,26 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   },
 
   '& .media': {
+    padding: '0rem !important',
+    height: '22vh',
+    overflow: 'hidden',
     '& img': {
       width: '100%',
+
       objectFit: 'contain',
       borderRadius: '19px',
     },
   },
-  '& .title': {
+  '& .name': {
     textAlign: 'left',
+    maxHeight: '5vh',
+    [theme.breakpoints.down('md')]: {
+      padding: '0 2rem',
+    },
+  },
+  '& .city': {
+    textAlign: 'right',
+    maxHeight: '5vh',
     [theme.breakpoints.down('md')]: {
       padding: '0 2rem',
     },
@@ -44,17 +63,25 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
       padding: '0 2rem',
     },
   },
+  '& .button': {
+    padding: '0rem !important',
+  },
 }))
 
 function CardSmallHouse({ house }) {
   const { name, description, image, city, slug } = house
   const { image: pic } = useImage(image)
+  const adminLocation = '/mon-compte/administration/liste-etablissements'
+  const { pathname } = useLocation()
   return (
     <StyledGrid item container xs={12} md={3}>
-      <Box className="media">
+      <Container
+        className="media"
+        sx={{ background: 'pink', textAlign: 'center' }}
+      >
         <img src={pic} alt={name} />
-      </Box>
-      <Box className="title">
+      </Container>
+      <Container className="name">
         <StyledNameTypo
           variant="h4"
           sx={{
@@ -63,28 +90,57 @@ function CardSmallHouse({ house }) {
         >
           {name}
         </StyledNameTypo>
-      </Box>
+      </Container>
 
-      <Box className="title">
-        <StyledNameTypo variant="h4">{city}</StyledNameTypo>
-      </Box>
+      <Container className="city">
+        <StyledCityTypo variant="h4">{city}</StyledCityTypo>
+      </Container>
 
-      <Box className="description">
+      <Container className="description">
         <StyledDescriptionTypo variant="caption">
-          {description.substring(0, 200)}
+          {description.substring(0, 100)}
         </StyledDescriptionTypo>
-      </Box>
-
-      <StyledNavLink
-        to={{
-          pathname: `/liste-des-etablissements/${slug}`,
-          state: {
-            house,
-          },
-        }}
-      >
-        <ButtonSecondary fullWidth>En savoir plus ++</ButtonSecondary>
-      </StyledNavLink>
+      </Container>
+      {pathname === adminLocation ? (
+        <Container className="button">
+          <StyledNavLink
+            to={{
+              pathname:
+                '/mon-compte/administration/etablissements/modification',
+              state: {
+                from: pathname,
+                house,
+              },
+            }}
+          >
+            <ButtonUpdate fullWidth>Modifier</ButtonUpdate>
+          </StyledNavLink>
+          <StyledNavLink
+            to={{
+              pathname: '/mon-compte/administration/etablissements/suppression',
+              state: {
+                from: pathname,
+                house,
+              },
+            }}
+          >
+            <ButtonDelete fullWidth>Supprimer</ButtonDelete>
+          </StyledNavLink>
+        </Container>
+      ) : (
+        <Container className="button">
+          <StyledNavLink
+            to={{
+              pathname: `/liste-des-etablissements/${slug}`,
+              state: {
+                house,
+              },
+            }}
+          >
+            <ButtonSecondary fullWidth>En savoir plus ++</ButtonSecondary>
+          </StyledNavLink>
+        </Container>
+      )}
     </StyledGrid>
   )
 }

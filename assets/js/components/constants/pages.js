@@ -109,7 +109,7 @@ const pages = [
   },
   {
     name: 'Liste des établissements',
-    path: '/mon-compte/administration/etablissements',
+    path: '/mon-compte/administration/liste-etablissements',
     access: 'admin',
     component: AccountAdminHouseList,
   },
@@ -122,6 +122,12 @@ const pages = [
   {
     name: 'Modifier un établissement',
     path: '/mon-compte/administration/etablissements/modification',
+    access: 'admin',
+    component: AccountAdminHouseUpdate,
+  },
+  {
+    name: 'Supprimer un établissement',
+    path: '/mon-compte/administration/etablissements/suppression',
     access: 'admin',
     component: AccountAdminHouseUpdate,
   },
