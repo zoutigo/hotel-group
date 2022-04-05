@@ -8,6 +8,13 @@ import ContactPage from '../routes/ContactPage'
 import EtablissementListPage from '../routes/EtablissementListPage'
 import BookingPage from '../routes/BookingPage'
 import EtablissementPage from '../routes/EtablissementPage'
+import AccountGestionSuiteCreate from '../routes/AccountGestionSuiteCreate'
+import AccountGestionSuiteUpdate from '../routes/AccountGestionSuiteUpdate'
+import AccountGestionSuiteList from '../routes/AccountGestionSuiteList'
+import AccountAdminUsersList from '../routes/AccountAdminUsersList'
+import AccountAdminHouseList from '../routes/AccountAdminHouseList'
+import AccountAdminHouseCreate from '../routes/AccountAdminHouseCreate'
+import AccountAdminHouseUpdate from '../routes/AccountAdminHouseUpdate'
 
 const pages = [
   {
@@ -74,19 +81,19 @@ const pages = [
     name: 'Liste des suites',
     path: '/mon-compte/gestion-suite/list',
     access: 'gerant',
-    component: AccountPage,
+    component: AccountGestionSuiteList,
   },
   {
     name: 'Creation Suite',
     path: '/mon-compte/gestion-suite/creation',
     access: 'gerant',
-    component: AccountPage,
+    component: AccountGestionSuiteCreate,
   },
   {
     name: 'Modification Suite',
     path: '/mon-compte/gestion-suite/modification',
     access: 'gerant',
-    component: AccountPage,
+    component: AccountGestionSuiteUpdate,
   },
   {
     name: 'Administration',
@@ -98,25 +105,25 @@ const pages = [
     name: 'Liste des utilisateurs',
     path: '/mon-compte/administration/utilisateurs',
     access: 'admin',
-    component: AccountPage,
+    component: AccountAdminUsersList,
   },
   {
     name: 'Liste des établissements',
     path: '/mon-compte/administration/etablissements',
     access: 'admin',
-    component: AccountPage,
+    component: AccountAdminHouseList,
   },
   {
     name: 'Creer un établissement',
     path: '/mon-compte/administration/etablissements/creation',
     access: 'admin',
-    component: AccountPage,
+    component: AccountAdminHouseCreate,
   },
   {
     name: 'Modifier un établissement',
     path: '/mon-compte/administration/etablissements/modification',
     access: 'admin',
-    component: AccountPage,
+    component: AccountAdminHouseUpdate,
   },
   {
     name: 'Deconnection',
