@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { styled } from '@mui/material/styles'
+import { styled } from '@mui/styles'
 import { Button } from '@mui/material'
 
 const ColorButton = styled(Button)(({ theme }) => ({
