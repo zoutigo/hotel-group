@@ -7,17 +7,21 @@ import { useHistory } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import { useSnackbar } from 'notistack'
 import { ListItem, List } from '@mui/material'
-import StyledForm from './StyledForm'
+
 import useMutate from '../hook/useMutate'
 import useStyles from '../../style'
 import useAppContext from '../hook/useAppContext'
 import getError from '../utils/getError'
-import TextInput from '../form/TextInput'
-import FileInput from '../form/FileInput'
-import ButtonPrimary from './ButtonPrimary'
+import TextInput from './TextInput'
+import FileInput from './FileInput'
+import ButtonPrimary from '../customs/ButtonPrimary'
+import StyledForm from '../customs/StyledForm'
 
 function HouseCreateForm({ queryKey, queryParams, action, poster }) {
   const location = useLocation()
+  const isUpdating =
+    action === 'update' && location.state && location.state.house
+
   const classes = useStyles()
   const { palette } = useTheme()
   const history = useHistory()
@@ -31,6 +35,11 @@ function HouseCreateForm({ queryKey, queryParams, action, poster }) {
     formState: { isSubmitting },
   } = useForm({
     mode: 'onChange',
+    defaultValues: {
+      name: isUpdating ? location.state.house.name : '',
+      city: isUpdating ? location.state.house.city : '',
+      description: isUpdating ? location.state.house.description : '',
+    },
   })
 
   const onSubmit = async (datas) => {
