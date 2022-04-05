@@ -79,11 +79,10 @@ function RegisterPage() {
                 variant="filled"
                 example=""
                 rules={{
-                  required: "le nom de l'album est obligatoire",
+                  required: 'le mail est obligatoire',
                   minLength: {
                     value: 2,
-                    message:
-                      "le nom de l'album doit avoir 2 caractères au moins",
+                    message: 'le mail doit avoir 2 caractères au moins',
                   },
                   maxLength: {
                     value: 30,
