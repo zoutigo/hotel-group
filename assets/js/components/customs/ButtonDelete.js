@@ -4,11 +4,10 @@ import { styled } from '@mui/material/styles'
 import { Button } from '@mui/material'
 
 const ColorButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.primarytext.main,
-  background: theme.palette.white.main,
-  textTransform: 'capitalize',
+  color: theme.palette.secondarytext.main,
+  background: theme.palette.border.main,
+  textTransform: 'uppercaze',
   padding: '0.5rem',
-
   '&:hover': {
     backgroundColor: theme.palette.secondary.main,
     color: theme.palette.primarytext.main,
@@ -18,7 +17,7 @@ const ColorButton = styled(Button)(({ theme }) => ({
   },
 }))
 
-function ButtonSecondary({ children, ...rest }) {
+function ButtonDelete({ children, ...rest }) {
   return (
     <ColorButton {...rest} variant="contained">
       {children}
@@ -26,7 +25,7 @@ function ButtonSecondary({ children, ...rest }) {
   )
 }
 
-ButtonSecondary.propTypes = {
+ButtonDelete.propTypes = {
   children: PropTypes.string.isRequired,
 }
-export default ButtonSecondary
+export default ButtonDelete

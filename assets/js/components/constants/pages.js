@@ -8,6 +8,13 @@ import ContactPage from '../routes/ContactPage'
 import EtablissementListPage from '../routes/EtablissementListPage'
 import BookingPage from '../routes/BookingPage'
 import EtablissementPage from '../routes/EtablissementPage'
+import AccountGestionSuiteCreate from '../routes/AccountGestionSuiteCreate'
+import AccountGestionSuiteUpdate from '../routes/AccountGestionSuiteUpdate'
+import AccountGestionSuiteList from '../routes/AccountGestionSuiteList'
+import AccountAdminUsersList from '../routes/AccountAdminUsersList'
+import AccountAdminHouseList from '../routes/AccountAdminHouseList'
+import AccountAdminHouseCreate from '../routes/AccountAdminHouseCreate'
+import AccountAdminHouseUpdate from '../routes/AccountAdminHouseUpdate'
 
 const pages = [
   {
@@ -66,9 +73,27 @@ const pages = [
   },
   {
     name: 'Gestion des suites',
-    path: '/mon-compte/gestion/suites',
+    path: '/mon-compte/gestion-suite',
     access: 'gerant',
     component: AccountPage,
+  },
+  {
+    name: 'Liste des suites',
+    path: '/mon-compte/gestion-suite/list',
+    access: 'gerant',
+    component: AccountGestionSuiteList,
+  },
+  {
+    name: 'Creation Suite',
+    path: '/mon-compte/gestion-suite/creation',
+    access: 'gerant',
+    component: AccountGestionSuiteCreate,
+  },
+  {
+    name: 'Modification Suite',
+    path: '/mon-compte/gestion-suite/modification',
+    access: 'gerant',
+    component: AccountGestionSuiteUpdate,
   },
   {
     name: 'Administration',
@@ -77,16 +102,34 @@ const pages = [
     component: AccountPage,
   },
   {
-    name: 'Administration Utilisateurs',
-    path: '/mon-compte/administration/users',
+    name: 'Liste des utilisateurs',
+    path: '/mon-compte/administration/utilisateurs',
     access: 'admin',
-    component: AccountPage,
+    component: AccountAdminUsersList,
   },
   {
-    name: 'Administration Etablissements',
-    path: '/mon-compte/administration/etablissements',
+    name: 'Liste des établissements',
+    path: '/mon-compte/administration/liste-etablissements',
     access: 'admin',
-    component: AccountPage,
+    component: AccountAdminHouseList,
+  },
+  {
+    name: 'Creer un établissement',
+    path: '/mon-compte/administration/etablissements/creation',
+    access: 'admin',
+    component: AccountAdminHouseCreate,
+  },
+  {
+    name: 'Modifier un établissement',
+    path: '/mon-compte/administration/etablissements/modification',
+    access: 'admin',
+    component: AccountAdminHouseUpdate,
+  },
+  {
+    name: 'Supprimer un établissement',
+    path: '/mon-compte/administration/etablissements/suppression',
+    access: 'admin',
+    component: AccountAdminHouseUpdate,
   },
   {
     name: 'Deconnection',

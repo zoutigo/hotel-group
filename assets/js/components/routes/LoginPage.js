@@ -111,7 +111,9 @@ function LoginPage() {
               />
             </ListItem>
             <ListItem>
-              <ButtonPrimary disabled={isMutating}>Se Connecter</ButtonPrimary>
+              <ButtonPrimary type="submit" disabled={isMutating}>
+                Se Connecter
+              </ButtonPrimary>
             </ListItem>
             <ListItem>
               <Typography variant="body1">Pas encore de compte ? </Typography>

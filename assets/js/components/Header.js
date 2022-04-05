@@ -11,18 +11,24 @@ import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
+import { useTheme } from '@mui/styles'
+import { useHistory } from 'react-router-dom'
 
-import { useTheme } from '@emotion/react'
 import ButtonNavbar from './customs/ButtonNavBar'
 import StyledNavLink from './customs/StyledNavLink'
 import pages from './constants/pages'
+import useStyles from '../style'
 
 const routesExclusions = [
   '/liste-des-etablissements/slug',
   '/register',
   '/login',
 ]
-const settingsEclusions = []
+const settingsEclusions = [
+  '/mon-compte/gestion',
+  '/mon-compte/gestion-suite/modification',
+  '/mon-compte/administration/etablissements/modification',
+]
 const loginRoute = pages.find((page) => page.path === '/login')
 const routes = pages.filter(
   (route) => route.access === 'public' && !routesExclusions.includes(route.path)
@@ -32,8 +38,15 @@ const settings = pages.filter(
     route.access !== 'public' && !settingsEclusions.includes(route.path)
 )
 
+const noclickSettings = [
+  '/mon-compte/administration',
+  '/mon-compte/gestion',
+  '/mon-compte/gestion-suite',
+  '/mon-compte',
+]
+
 function Header() {
-  const [isAuth, setIsAuth] = React.useState(false)
+  const [isAuth, setIsAuth] = React.useState(true)
   const [anchorElNav, setAnchorElNav] = React.useState(null)
   const [anchorElUser, setAnchorElUser] = React.useState(null)
 
@@ -52,7 +65,9 @@ function Header() {
     setAnchorElUser(null)
   }
 
+  const history = useHistory()
   const { palette } = useTheme()
+  const classes = useStyles()
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -183,8 +198,31 @@ function Header() {
                   onClose={handleCloseUserMenu}
                 >
                   {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">{setting}</Typography>
+                    <MenuItem
+                      className={
+                        noclickSettings.includes(setting.path)
+                          ? classes.noclicksetting
+                          : ''
+                      }
+                      key={setting}
+                      onClick={() => {
+                        handleCloseUserMenu()
+                        history.push(setting.path)
+                      }}
+                    >
+                      {setting.path === '/mon-compte/loggout' ? (
+                        <StyledNavLink
+                          to={{
+                            pathname: setting.path,
+                          }}
+                        >
+                          <ButtonNavbar>{setting.name}</ButtonNavbar>
+                        </StyledNavLink>
+                      ) : (
+                        <Typography textAlign="center">
+                          {setting.name}
+                        </Typography>
+                      )}
                     </MenuItem>
                   ))}
                 </Menu>

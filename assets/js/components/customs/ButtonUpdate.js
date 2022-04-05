@@ -5,12 +5,11 @@ import { Button } from '@mui/material'
 
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.primarytext.main,
-  background: theme.palette.white.main,
-  textTransform: 'capitalize',
+  background: theme.palette.secondary.main,
+  textTransform: 'uppercaze',
   padding: '0.5rem',
-
   '&:hover': {
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.primary.main,
     color: theme.palette.primarytext.main,
   },
   [theme.breakpoints.down('md')]: {
@@ -18,7 +17,7 @@ const ColorButton = styled(Button)(({ theme }) => ({
   },
 }))
 
-function ButtonSecondary({ children, ...rest }) {
+function ButtonUpdate({ children, ...rest }) {
   return (
     <ColorButton {...rest} variant="contained">
       {children}
@@ -26,7 +25,7 @@ function ButtonSecondary({ children, ...rest }) {
   )
 }
 
-ButtonSecondary.propTypes = {
+ButtonUpdate.propTypes = {
   children: PropTypes.string.isRequired,
 }
-export default ButtonSecondary
+export default ButtonUpdate

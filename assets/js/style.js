@@ -4,7 +4,7 @@ const useStyles = makeStyles((theme) =>
   createStyles({
     page: {
       paddingTop: '3.5rem',
-      '& >:first-child': {
+      '&>:first-child': {
         paddingTop: '5.5rem !important',
       },
     },
@@ -43,9 +43,13 @@ const useStyles = makeStyles((theme) =>
       [theme.breakpoints.up('md')]: {
         width: '50%',
       },
-      '& button': {
+      '& >button': {
         width: '100%',
       },
+    },
+    noclicksetting: {
+      pointerEvents: 'none !important',
+      background: `${theme.palette.secondary.main} !important`,
     },
   })
 )
