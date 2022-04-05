@@ -40,3 +40,9 @@ export const apiHouseDelete = async (datas) => {
   const response = await axios.post(URL, datas)
   return response
 }
+export const apiContact = async (datas) => {
+  const URL = `${PREFIX}/api/contact/post`
+
+  const response = await axios.post(URL, datas)
+  return response
+}
