@@ -4,17 +4,26 @@ import StyledSection from '../customs/StyledSection'
 import StyledPage from '../customs/StyledPage'
 import Bread from '../customs/Bread'
 import PageTitle from '../customs/PageTitle'
-import StyledForm from '../customs/StyledForm'
+import HouseCreateForm from '../customs/HouseCreateForm'
+import { apiHouseCreate } from '../utils/api'
 
 function AccountAdminHouseCreate() {
   const { palette } = useTheme()
+
+  const queryKey = ['houses']
+  const querypParams = ''
+  const action = 'create'
+  const poster = apiHouseCreate
+
+  const formOptions = { queryKey, querypParams, action, poster }
+
   return (
     <StyledPage>
       <StyledSection background={palette.white.main}>
-        <Bread title="login" />
-        <PageTitle>AccountAdminHouseCreate vous</PageTitle>
+        <Bread title="Créer un établissement" />
+        <PageTitle>Créer un établissement</PageTitle>
+        <HouseCreateForm {...formOptions} />
       </StyledSection>
-      <StyledForm>Form</StyledForm>
     </StyledPage>
   )
 }
