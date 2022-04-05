@@ -11,7 +11,7 @@ import Select from 'react-select'
 import MobileDateRangePicker from '@mui/lab/MobileDateRangePicker'
 import DesktopDateRangePicker from '@mui/lab/DesktopDateRangePicker'
 import { useTheme } from '@mui/styles'
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import moment from 'moment'
 import { useSnackbar } from 'notistack'
 import { useHistory, useLocation } from 'react-router-dom'
@@ -61,6 +61,8 @@ function BookingPage() {
   const { dispatch, state } = useAppContext()
   const { userInfo } = state
 
+  const [suites, setSuites] = useState([])
+
   const queryKey = ['booking']
 
   const { mutateAsync, isMutating } = useMutate(queryKey, apiBookingCreate)
@@ -68,14 +70,21 @@ function BookingPage() {
     control,
     handleSubmit,
     getValues,
-    formState: { isSubmitting },
+    formState: { errors, isSubmitting },
   } = useForm({
     mode: 'onChange',
   })
-  const { house: houseId } = getValues()
+  // const houseId = getValues('house')
 
   const onSubmit = async (datas) => {
     console.log('datas', datas)
+    const { house: houseId, suit: suitId, bookingdates } = datas
+    const result = {
+      houseId,
+      suitId,
+      startdate: moment(bookingdates[0]).toDate(),
+      enddate: moment(bookingdates[1]).toDate(),
+    }
 
     // closeSnackbar()
 
@@ -90,16 +99,12 @@ function BookingPage() {
     // }
   }
 
-  const houseOptions = useCallback(() => {
+  const houseOptions = useCallback(
     houses.map(({ name, id }) => ({
       value: id,
       label: name,
-    }))
-  }, [houses])
-
-  const suitOptions = useCallback(
-    houses.filter((house) => house.id === houseId) || [],
-    [houseId]
+    })),
+    [houses]
   )
 
   const initialHouse = useCallback(
@@ -134,19 +139,35 @@ function BookingPage() {
                 control={control}
                 name="house"
                 defaultValue={initialHouse}
+                rules={{
+                  required: 'veillez choisir un établissement',
+                }}
                 render={({ field }) => (
                   <TextField
                     {...field}
+                    onChange={(e) => {
+                      const houseId = e.target.value
+                      field.onChange(houseId)
+                      const newHouse = houses.find(
+                        (house) => house.id === houseId
+                      )
+                      const newSuites = newHouse.suits.map((suit) => ({
+                        label: suit.name,
+                        value: suit.id,
+                      }))
+                      setSuites(newSuites)
+                    }}
                     sx={{ m: 1, width: '100%' }}
-                    id="filled-select-currency"
+                    id="filled-select-house"
                     select
                     label="Etablissement"
-                    helperText="Please select your currency"
                     variant="filled"
+                    error={Boolean(errors.house)}
+                    helperText={errors.house ? errors.house.message : ''}
                   >
-                    {houses.map((option) => (
-                      <MenuItem key={option.id} value={option.id}>
-                        {option.name}
+                    {houseOptions.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
                       </MenuItem>
                     ))}
                   </TextField>
@@ -158,52 +179,43 @@ function BookingPage() {
                 control={control}
                 name="suit"
                 defaultValue={initialSuit}
+                rules={{
+                  required: 'veillez choisir une suite',
+                }}
                 render={({ field }) => (
                   <TextField
                     {...field}
+                    onChange={(e) => field.onChange(e.target.value)}
                     sx={{ m: 1, width: '100%' }}
-                    id="filled-select-currency"
+                    id="filled-select-suites"
                     select
-                    label="Etablissement"
-                    helperText="Please select your currency"
+                    label="Choisissez une suite"
                     variant="filled"
+                    error={Boolean(errors.suit)}
+                    helperText={errors.suit ? errors.suit.message : ''}
                   >
-                    {suitOptions.map((option) => (
-                      <MenuItem key={option.id} value={option.id}>
-                        {option.name}
+                    {suites.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
                       </MenuItem>
                     ))}
                   </TextField>
                 )}
               />
             </ListItem>
-            {/* <ListItem>
-              <Controller
-                control={control}
-                name="house"
-                defaultValue={initialHouse}
-                // rules={{
-                //   required: 'selectionner un role au moins',
-                // }}
-                render={({ field }) => (
-                  <Select
-                    {...field}
-                    placeholder="Choisir un établissement"
-                    inputRef={field.ref}
-                    options={houseOptions()}
-                    isMulti
-                    styles={selectStyles}
-                    defaultOptions
-                    maxMenuHeight={200}
-                  />
-                )}
-              />
-            </ListItem> */}
+
             <ListItem className={classes.hideUpMd}>
               <Controller
-                name="startdate"
+                name="bookingdates"
                 control={control}
                 defaultValue={[new Date()]}
+                rules={{
+                  validate: {
+                    greather: (value) =>
+                      value[0].isAfter(value[1]) ||
+                      'La date de fin doit etre différente de la date de début',
+                  },
+                }}
                 render={({ field }) => (
                   <MobileDateRangePicker
                     {...field}
@@ -224,6 +236,12 @@ function BookingPage() {
                           variant="filled"
                           {...endProps}
                           label="Date de fin"
+                          error={Boolean(errors.bookingdates)}
+                          helperText={
+                            errors.bookingdates
+                              ? errors.bookingdates.message
+                              : ''
+                          }
                         />
                       </>
                     )}
@@ -231,7 +249,7 @@ function BookingPage() {
                 )}
               />
             </ListItem>
-            <ListItem className={classes.hideDownMd}>
+            {/* <ListItem className={classes.hideDownMd}>
               <Stack spacing={3}>
                 <Controller
                   name="startdate"
@@ -263,14 +281,14 @@ function BookingPage() {
                   )}
                 />
               </Stack>
-            </ListItem>
+            </ListItem> */}
 
             <ListItem>
               <ButtonPrimary
                 type="submit"
                 disabled={isMutating || isSubmitting}
               >
-                Se Connecter
+                Je réserve
               </ButtonPrimary>
             </ListItem>
           </List>
