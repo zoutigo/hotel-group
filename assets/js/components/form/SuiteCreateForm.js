@@ -159,7 +159,11 @@ function SuiteCreateForm({ queryKey, queryParams, action, poster }) {
         <ListItem>
           <FileInput
             control={control}
-            label="Telecharger une image de présentation"
+            label={
+              isUpdating
+                ? "Modifier l'image de présentation"
+                : 'Telecharger une image de présentation'
+            }
             variant="filled"
             example=""
             defaultValue=""
@@ -168,7 +172,11 @@ function SuiteCreateForm({ queryKey, queryParams, action, poster }) {
         <ListItem>
           <FileInput
             control={control}
-            label="Telecharger les photos de la suite"
+            label={
+              isUpdating
+                ? 'Ajouter des photos'
+                : 'Telecharger les photos de la suite'
+            }
             multiple
             variant="filled"
             example=""
@@ -177,7 +185,7 @@ function SuiteCreateForm({ queryKey, queryParams, action, poster }) {
         </ListItem>
         <ListItem>
           <ButtonPrimary type="submit" disabled={isMutating || isSubmitting}>
-            Je crée cette suite
+            {isUpdating ? 'Je modifie la suite' : ' Je crée cette suite'}
           </ButtonPrimary>
         </ListItem>
       </List>
