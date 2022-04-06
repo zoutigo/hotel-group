@@ -4,17 +4,25 @@ import StyledSection from '../customs/StyledSection'
 import StyledPage from '../customs/StyledPage'
 import Bread from '../customs/Bread'
 import PageTitle from '../customs/PageTitle'
-import StyledForm from '../customs/StyledForm'
+import SuiteCreateForm from '../form/SuiteCreateForm'
+import { apiSuitCreate } from '../utils/api'
 
 function AccountGestionSuiteCreate() {
   const { palette } = useTheme()
+
+  const queryKey = ['suits']
+  const querypParams = ''
+  const action = 'create'
+  const poster = apiSuitCreate
+
+  const formOptions = { queryKey, querypParams, action, poster }
   return (
     <StyledPage>
       <StyledSection background={palette.white.main}>
-        <Bread title="login" />
-        <PageTitle>AccountAdminHouseCreate vous</PageTitle>
+        <Bread title="Creation d'une suite" />
+        <PageTitle>Créer une suite</PageTitle>
+        <SuiteCreateForm {...formOptions} />
       </StyledSection>
-      <StyledForm>Form</StyledForm>
     </StyledPage>
   )
 }

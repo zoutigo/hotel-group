@@ -16,12 +16,7 @@ export const apiRegister = async (datas) => {
   const response = await axios.post(URL, datas)
   return response
 }
-export const apiBookingCreate = async (datas) => {
-  const URL = `${PREFIX}/api/booking/create`
 
-  const response = await axios.post(URL, datas)
-  return response
-}
 export const apiHouseCreate = async (datas) => {
   const URL = `${PREFIX}/api/house/create`
 
@@ -36,6 +31,42 @@ export const apiHouseUpdate = async (datas) => {
 }
 export const apiHouseDelete = async (datas) => {
   const URL = `${PREFIX}/api/house/delete`
+
+  const response = await axios.post(URL, datas)
+  return response
+}
+export const apiSuitCreate = async (datas) => {
+  const URL = `${PREFIX}/api/suit/create`
+
+  const response = await axios.post(URL, datas)
+  return response
+}
+export const apiSuitUpdate = async (datas) => {
+  const URL = `${PREFIX}/api/suit/update`
+
+  const response = await axios.post(URL, datas)
+  return response
+}
+export const apiSuitDelete = async (datas) => {
+  const URL = `${PREFIX}/api/suit/delete`
+
+  const response = await axios.post(URL, datas)
+  return response
+}
+export const apiBookingCreate = async (datas) => {
+  const URL = `${PREFIX}/api/booking/create`
+
+  const response = await axios.post(URL, datas)
+  return response
+}
+export const apiBookingUpdate = async (datas) => {
+  const URL = `${PREFIX}/api/booking/update`
+
+  const response = await axios.post(URL, datas)
+  return response
+}
+export const apiBookingDelete = async (datas) => {
+  const URL = `${PREFIX}/api/booking/delete`
 
   const response = await axios.post(URL, datas)
   return response
