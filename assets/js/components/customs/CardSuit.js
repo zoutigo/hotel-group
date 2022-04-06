@@ -1,6 +1,8 @@
 import React, { useCallback, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { Button, Grid, Tooltip, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
+import { useLocation } from 'react-router-dom'
 import { styled, useTheme } from '@mui/styles'
 import useImage from '../hook/useImage'
 import useStyles from '../../style'
@@ -10,6 +12,8 @@ import getRandomKey from '../utils/getRandomkey'
 import ModalImage from './ModalImage'
 import Image from './Image'
 import StyledSection from './StyledSection'
+import ButtonUpdate from './ButtonUpdate'
+import ButtonDelete from './ButtonDelete'
 
 const StyledGrid = styled(Grid)(({ theme }) => ({
   '& .card-suit-media': {
@@ -25,6 +29,11 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
 }))
 
 function CardSuit({ suit }) {
+  const { pathname } = useLocation()
+  const history = useHistory()
+  const managerLocation = '/mon-compte/gestion-suite/list'
+  const update = managerLocation === pathname
+
   const classes = useStyles()
   const { name, description, price, images, banner, booking } = suit
   const { palette } = useTheme()
@@ -44,6 +53,30 @@ function CardSuit({ suit }) {
     },
     [setTempImgSrc, setModal]
   )
+
+  const handleUpdateSuit = useCallback(() => {
+    history.push({
+      pathname: '/mon-compte/gestion-suite/modification',
+      state: {
+        from: pathname,
+        suit,
+      },
+    })
+  }, [pathname, history])
+
+  const handleDeleteSuit = useCallback(() => {
+    history.push({
+      pathname: '/mon-compte/gestion-suite/suppression',
+      state: {
+        from: pathname,
+        suit,
+      },
+    })
+  }, [pathname, history])
+
+  const handleDeleteImage = useCallback(() => {
+    console.log('delete image')
+  }, [])
 
   return (
     <StyledGrid container>
@@ -80,14 +113,33 @@ function CardSuit({ suit }) {
               <Typography variant="h3">{price} €</Typography>
             </Grid>
             <Grid item xs={6}>
-              <StyledNavLink
-                to={{
-                  pathname: '/reserver',
-                  state: { suit },
-                }}
-              >
-                <ButtonPrimary fullWidth>Réserver maintenant</ButtonPrimary>
-              </StyledNavLink>
+              {update ? (
+                <Grid item container justifyContent="space-between">
+                  <ButtonUpdate
+                    sx={{ width: '45%' }}
+                    onClick={handleUpdateSuit}
+                  >
+                    Modifier
+                  </ButtonUpdate>
+
+                  <ButtonDelete
+                    sx={{ width: '45%' }}
+                    onClick={handleDeleteSuit}
+                  >
+                    {' '}
+                    Supprimer
+                  </ButtonDelete>
+                </Grid>
+              ) : (
+                <StyledNavLink
+                  to={{
+                    pathname: '/reserver',
+                    state: { suit },
+                  }}
+                >
+                  <ButtonPrimary fullWidth>Réserver maintenant</ButtonPrimary>
+                </StyledNavLink>
+              )}
             </Grid>
           </Grid>
         </Grid>
@@ -114,6 +166,15 @@ function CardSuit({ suit }) {
                 onClick={() => handleClickImage(imge)}
               >
                 <Image {...imge} />
+                {update && (
+                  <ButtonDelete
+                    onClick={handleDeleteImage}
+                    sx={{ mt: 1 }}
+                    fullWidth
+                  >
+                    Supprimer
+                  </ButtonDelete>
+                )}
               </Grid>
             ))}
         </Grid>

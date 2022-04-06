@@ -15,6 +15,8 @@ import AccountAdminUsersList from '../routes/AccountAdminUsersList'
 import AccountAdminHouseList from '../routes/AccountAdminHouseList'
 import AccountAdminHouseCreate from '../routes/AccountAdminHouseCreate'
 import AccountAdminHouseUpdate from '../routes/AccountAdminHouseUpdate'
+import AccountAdminHouseDelete from '../routes/AccountAdminHouseDelete'
+import AccountGestionSuiteDelete from '../routes/AccountGestionSuiteDelete'
 
 const pages = [
   {
@@ -96,6 +98,12 @@ const pages = [
     component: AccountGestionSuiteUpdate,
   },
   {
+    name: 'Supprimer Suite',
+    path: '/mon-compte/gestion-suite/suppression',
+    access: 'gerant',
+    component: AccountGestionSuiteDelete,
+  },
+  {
     name: 'Administration',
     path: '/mon-compte/administration',
     access: 'admin',
@@ -129,7 +137,7 @@ const pages = [
     name: 'Supprimer un établissement',
     path: '/mon-compte/administration/etablissements/suppression',
     access: 'admin',
-    component: AccountAdminHouseUpdate,
+    component: AccountAdminHouseDelete,
   },
   {
     name: 'Deconnection',
