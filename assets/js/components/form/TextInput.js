@@ -1,7 +1,8 @@
-import React from "react"
-import { useController, Controller } from "react-hook-form"
-import PropTypes from "prop-types"
-import StyledTextField from "../../styled-components/StyledTextField"
+import React from 'react'
+import { useController, Controller } from 'react-hook-form'
+import PropTypes from 'prop-types'
+import { TextField } from '@mui/material'
+import StyledTextField from '../customs/StyledTextField'
 
 function TextInput({
   control,
@@ -26,7 +27,7 @@ function TextInput({
       name={name}
       control={control}
       render={({ field }) => (
-        <StyledTextField
+        <TextField
           inputRef={ref}
           {...rest}
           fullWidth
@@ -46,9 +47,9 @@ function TextInput({
 
 TextInput.defaultProps = {
   defaultValue: null,
-  width: "100%",
+  width: '100%',
   rules: { fake: true },
-  example: "",
+  example: '',
 }
 TextInput.propTypes = {
   name: PropTypes.string.isRequired,
