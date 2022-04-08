@@ -1,0 +1,29 @@
+name: Full CI process for Symfony 5 / React
+
+on: [push]
+
+jobs:
+
+  backend :
+    name: Running functional and unit test
+    runs-on: ubuntu-20.04
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+          MYSQL_ROOT_PASSWORD: symfony
+          MYSQL_DATABASE: symfony
+        ports:
+          - 3306/tcp
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    strategy:
+      fail-fast: true
+      matrix:
+        php-versions: ['7.4-apache']
+        
+    steps: 
+      # —— Setup Github actions 🐙 —————————————————————————————————————————————
+      # https://github.com/actions/checkout (official)
+        - name: Checkout
+          uses: actions/checkout@v2
