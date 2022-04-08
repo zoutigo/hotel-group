@@ -30,6 +30,10 @@ class Suite
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
 
+    #[ORM\ManyToOne(targetEntity: House::class, inversedBy: 'suites')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $house;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,6 +95,18 @@ class Suite
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getHouse(): ?House
+    {
+        return $this->house;
+    }
+
+    public function setHouse(?House $house): self
+    {
+        $this->house = $house;
 
         return $this;
     }

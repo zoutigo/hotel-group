@@ -3,6 +3,7 @@
 namespace App\Tests;
 
 use App\Entity\House;
+use App\Entity\Suite;
 use DateTime;
 use PHPUnit\Framework\TestCase;
 
@@ -56,5 +57,17 @@ class HouseUnitTest extends TestCase
         $this->assertEmpty($house->getDescription());
         $this->assertEmpty($house->getSlug());
         $this->assertEmpty($house->getCreatedAt());
+    }
+
+    public function testAddRemoveSuite()
+    {
+        $house = new House();
+        $suite = new Suite();
+
+        $house->addSuite($suite);
+        $this->assertContains($suite, $house->getSuites());
+
+        $house->removeSuite($suite);
+        $this->assertNotContains($suite, $house->getSuites());
     }
 }
