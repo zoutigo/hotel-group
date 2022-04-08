@@ -73,7 +73,20 @@ jobs:
         - name: Check Symfony requirements
           run: vendor/bin/requirements-checker
 
-        - name: Check the Symfony console
-          run: |
-            bin/console about
-            bin/cons
+        ## —— JWT 💫 —————————————————————————————————————————————————————————————
+        - name: Generate the SSL keys
+          run: bin/console lexik:jwt:generate-keypair
+
+        ## —— NPM 🐱 ————————————————————————————————————————————————————————————
+        - name: npm install
+          uses: actions/setup-node@v2
+          with:
+            node-version: '14'
+            #registry-url: npm.fontawesome.com
+        - run: npm install
+            #env:
+          #NODE_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
+
+        - name: npm run build
+          run: npm run encore production
+
