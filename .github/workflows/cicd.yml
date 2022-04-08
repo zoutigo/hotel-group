@@ -47,7 +47,7 @@ jobs:
 
       ## —— Composer 🧙‍️ —————————————————————————————————————————————————————————
         - name: Validate composer.json and composer.lock
-          run: composer validate
+          run: composer validate --no-check-all --no-check-publish
 
         - name: Get composer cache directory
           id: composer-cache
