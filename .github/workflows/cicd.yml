@@ -20,10 +20,22 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php-versions: ['7.4-apache']
-        
+        php-versions: ['7.4-apache','8']
+
     steps: 
       # —— Setup Github actions 🐙 —————————————————————————————————————————————
       # https://github.com/actions/checkout (official)
         - name: Checkout
           uses: actions/checkout@v2
+
+       # https://github.com/shivammathur/setup-php (community)
+        - name: Setup PHP, extensions and composer with shivammathur/setup-php
+          uses: shivammathur/setup-php@v2
+          with:
+            php-version: ${{ matrix.php-versions }}
+            extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, dom, filter, gd, iconv, json, mbstring, mysqli
+          env:
+            update: true
+
+        - name: Check PHP Version
+          run: php -v
