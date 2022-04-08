@@ -28,6 +28,10 @@ class Booking
     #[ORM\JoinColumn(nullable: false)]
     private $user;
 
+    #[ORM\ManyToOne(targetEntity: Suite::class, inversedBy: 'bookings')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $suite;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -77,6 +81,18 @@ class Booking
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getSuite(): ?Suite
+    {
+        return $this->suite;
+    }
+
+    public function setSuite(?Suite $suite): self
+    {
+        $this->suite = $suite;
 
         return $this;
     }

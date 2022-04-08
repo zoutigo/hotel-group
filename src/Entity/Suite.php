@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\SuiteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SuiteRepository::class)]
@@ -33,6 +35,14 @@ class Suite
     #[ORM\ManyToOne(targetEntity: House::class, inversedBy: 'suites')]
     #[ORM\JoinColumn(nullable: false)]
     private $house;
+
+    #[ORM\OneToMany(mappedBy: 'suite', targetEntity: Booking::class, orphanRemoval: true)]
+    private $bookings;
+
+    public function __construct()
+    {
+        $this->bookings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -107,6 +117,36 @@ class Suite
     public function setHouse(?House $house): self
     {
         $this->house = $house;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Booking>
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): self
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings[] = $booking;
+            $booking->setSuite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): self
+    {
+        if ($this->bookings->removeElement($booking)) {
+            // set the owning side to null (unless already changed)
+            if ($booking->getSuite() === $this) {
+                $booking->setSuite(null);
+            }
+        }
 
         return $this;
     }

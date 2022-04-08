@@ -77,6 +77,6 @@ class UserUnitTest extends TestCase
         $this->assertContains($booking, $user->getBookings());
 
         $user->removeBooking($booking);
-        $this->assertNotContains($$booking, $user->getBookings());
+        $this->assertNotContains($booking, $user->getBookings());
     }
 }

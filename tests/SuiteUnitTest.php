@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use App\Entity\Booking;
 use App\Entity\Suite;
 use DateTime;
 use PHPUnit\Framework\TestCase;
@@ -56,5 +57,17 @@ class SuiteTestUnit extends TestCase
         $this->assertEmpty($suite->getPrice());
         $this->assertEmpty($suite->getBookinglink());
         $this->assertEmpty($suite->getCreatedAt());
+    }
+
+    public function testAddRemoveBooking()
+    {
+        $suite = new Suite();
+        $booking = new Booking();
+
+        $suite->addBooking($booking);
+        $this->assertContains($booking, $suite->getBookings());
+
+        $suite->removeBooking($booking);
+        $this->assertNotContains($booking, $suite->getBookings());
     }
 }
