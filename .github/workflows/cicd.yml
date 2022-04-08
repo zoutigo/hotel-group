@@ -88,5 +88,5 @@ jobs:
           #NODE_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
 
         - name: npm run build
-          run: npm run encore production
+          run: npm run build
 
