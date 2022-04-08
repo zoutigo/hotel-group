@@ -69,14 +69,9 @@ jobs:
         - run: composer require symfony/runtime 
 
         ## —— Symfony 🎵 ——————————————————————————————————————————————————————————
-        - name: Install symfony cli
-          run: wget https://get.symfony.com/cli/installer -O - | bash
-
-        - name: Check symfony requirements
-          run: symfony check:req
-
-        ###- name: Check Symfony requirements
-         ### run: vendor/bin/requirements-checker
+    
+        - name: Check Symfony requirements
+          run: vendor/bin/requirements-checker
 
         - name: Check the Symfony console
           run: |
