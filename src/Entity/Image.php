@@ -16,10 +16,10 @@ class Image
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $imgName;
+    private $name;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $imgUrl;
+    private $path;
 
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
@@ -29,26 +29,26 @@ class Image
         return $this->id;
     }
 
-    public function getImgName(): ?string
+    public function getName(): ?string
     {
-        return $this->imgName;
+        return $this->name;
     }
 
-    public function setImgName(string $imgName): self
+    public function setName(string $name): self
     {
-        $this->imgName = $imgName;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getImgUrl(): ?string
+    public function getPath(): ?string
     {
-        return $this->imgUrl;
+        return $this->path;
     }
 
-    public function setImgUrl(string $imgUrl): self
+    public function setPath(string $path): self
     {
-        $this->imgUrl = $imgUrl;
+        $this->path = $path;
 
         return $this;
     }
