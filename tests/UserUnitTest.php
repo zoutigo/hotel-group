@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use App\Entity\Booking;
 use App\Entity\House;
 use App\Entity\User;
 use PHPUnit\Framework\TestCase;
@@ -66,5 +67,16 @@ class UserUnitTest extends TestCase
 
         $user->removeHouse($house);
         $this->assertNotContains($house, $user->getHouses());
+    }
+    public function testAddRemoveBooking()
+    {
+        $user = new User();
+        $booking = new Booking();
+
+        $user->addBooking($booking);
+        $this->assertContains($booking, $user->getBookings());
+
+        $user->removeBooking($booking);
+        $this->assertNotContains($$booking, $user->getBookings());
     }
 }
