@@ -46,6 +46,9 @@ jobs:
           if: matrix.php-versions == '8.0'
 
       ## —— Composer 🧙‍️ —————————————————————————————————————————————————————————
+        - name: Update composer
+          run: composer update
+
         - name: Validate composer.json and composer.lock
           run: composer validate --no-check-all --no-check-publish
 
