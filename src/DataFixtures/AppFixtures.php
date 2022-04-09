@@ -2,16 +2,12 @@
 
 namespace App\DataFixtures;
 
-<<<<<<< HEAD
-use App\Entity\User;
-=======
 use App\Entity\Booking;
 use App\Entity\House;
 use App\Entity\Image;
 use App\Entity\Suite;
 use App\Entity\User;
 use DateTime;
->>>>>>> 81d705ad7101e57d4c9c4d26d4396731c5be6de6
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -32,7 +28,6 @@ class AppFixtures extends Fixture
           // Utilisation de faker
         $faker = Factory::create('fr_FR');
 
-<<<<<<< HEAD
         // Creation Manager
 
         $userManager = new User();
@@ -48,9 +43,6 @@ class AppFixtures extends Fixture
         $userManager->setPassword($password);
 
         $manager->persist($userManager);
-=======
-       
->>>>>>> 81d705ad7101e57d4c9c4d26d4396731c5be6de6
 
         // Creation admin
 
@@ -63,13 +55,8 @@ class AppFixtures extends Fixture
                 ->setCreatedAt($faker->dateTimeBetween('-6 month', 'now'))
              ;
 
-<<<<<<< HEAD
-        $password = $this->encoder->hashPassword($userAdmin, 'password');
-        $userManager->setPassword($password);
-=======
         $adminPassword = $this->encoder->hashPassword($userAdmin, 'password');
         $userAdmin->setPassword($adminPassword);
->>>>>>> 81d705ad7101e57d4c9c4d26d4396731c5be6de6
 
         $manager->persist($userAdmin);
 
@@ -84,20 +71,13 @@ class AppFixtures extends Fixture
                 ->setCreatedAt($faker->dateTimeBetween('-6 month', 'now'))
              ;
 
-<<<<<<< HEAD
-        $password = $this->encoder->hashPassword($user, 'password');
-        $userManager->setPassword($password);
-=======
         $userPassword = $this->encoder->hashPassword($user, 'password');
         $user->setPassword($userPassword);
->>>>>>> 81d705ad7101e57d4c9c4d26d4396731c5be6de6
 
         $manager->persist($user);
 
 
 
-<<<<<<< HEAD
-=======
      
         // create Manager
 
@@ -211,7 +191,6 @@ class AppFixtures extends Fixture
 
 
 
->>>>>>> 81d705ad7101e57d4c9c4d26d4396731c5be6de6
         $manager->flush();
     }
 }
