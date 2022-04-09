@@ -5,6 +5,7 @@ namespace App\Tests;
 use App\Entity\Booking;
 use App\Entity\House;
 use App\Entity\User;
+use DateTime;
 use PHPUnit\Framework\TestCase;
 
 class UserUnitTest extends TestCase
@@ -12,12 +13,14 @@ class UserUnitTest extends TestCase
     public function testIsTrue(): void
     {
         $user = new User();
+        $now = new DateTime();
 
         $user->setEmail('true@test.com');
         $user->setFirstname('prenom');
         $user->setLastname('nom');
         $user->setPassword('password');
         $user->setRoles(['ROLE_TEST']);
+        $user->setCreatedAt($now);
 
      
 
@@ -26,17 +29,20 @@ class UserUnitTest extends TestCase
         $this->assertTrue($user->getLastname() === 'nom');
         $this->assertTrue($user->getPassword() === 'password');
         $this->assertTrue($user->getRoles()===['ROLE_TEST','ROLE_USER']);
+        $this->assertTrue($user->getCreatedAt()===$now);
         $this->assertTrue($user->getUserIdentifier()==='true@test.com');
     }
 
     public function testIsFalse(): void
     {
         $user = new User();
+        $now = new DateTime('now');
 
         $user->setEmail('true@tester.com')
             ->setFirstname('prenomer')
             ->setLastname('nommer')
             ->setPassword('passworder')
+            ->setCreatedAt($now)
           ;
         
 
@@ -44,6 +50,7 @@ class UserUnitTest extends TestCase
         $this->assertFalse($user->getFirstname() === 'prenom');
         $this->assertFalse($user->getLastname() === 'nom');
         $this->assertFalse($user->getPassword() === 'password');
+        $this->assertFalse($user->getCreatedAt() === new DateTime());
     }
 
     public function testIsEmpty()
@@ -54,6 +61,7 @@ class UserUnitTest extends TestCase
         $this->assertEmpty($user->getFirstname());
         $this->assertEmpty($user->getLastname());
         $this->assertEmpty($user->getPlainPassword());
+        $this->assertEmpty($user->getCreatedAt());
         $this->assertEmpty($user->getId());
     }
 

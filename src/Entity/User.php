@@ -85,6 +85,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Booking::class, orphanRemoval: true)]
     private $bookings;
 
+    #[ORM\Column(type: 'datetime')]
+    private $createdAt;
+
     public function __construct()
     {
         $this->houses = new ArrayCollection();
@@ -270,6 +273,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $booking->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
