@@ -2,7 +2,12 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Booking;
+use App\Entity\House;
+use App\Entity\Image;
+use App\Entity\Suite;
 use App\Entity\User;
+use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -23,21 +28,7 @@ class AppFixtures extends Fixture
           // Utilisation de faker
         $faker = Factory::create('fr_FR');
 
-        // Creation Manager
-
-        $userManager = new User();
-
-        $userManager->setEmail('manager@test.com')
-             ->setFirstname($faker->firstname)
-             ->setLastname($faker->lastname)
-             ->setRoles(['ROLE_MANAGER'])
-             ->setCreatedAt($faker->dateTimeBetween('-6 month', 'now'))
-             ;
-
-        $password = $this->encoder->hashPassword($userManager, 'password');
-        $userManager->setPassword($password);
-
-        $manager->persist($userManager);
+       
 
         // Creation admin
 
@@ -50,8 +41,8 @@ class AppFixtures extends Fixture
                 ->setCreatedAt($faker->dateTimeBetween('-6 month', 'now'))
              ;
 
-        $password = $this->encoder->hashPassword($userAdmin, 'password');
-        $userManager->setPassword($password);
+        $adminPassword = $this->encoder->hashPassword($userAdmin, 'password');
+        $userAdmin->setPassword($adminPassword);
 
         $manager->persist($userAdmin);
 
@@ -66,10 +57,117 @@ class AppFixtures extends Fixture
                 ->setCreatedAt($faker->dateTimeBetween('-6 month', 'now'))
              ;
 
-        $password = $this->encoder->hashPassword($user, 'password');
-        $userManager->setPassword($password);
+        $userPassword = $this->encoder->hashPassword($user, 'password');
+        $user->setPassword($userPassword);
 
         $manager->persist($user);
+
+
+
+     
+        // create Manager
+
+        for ($i=0; $i < 5; $i++) {
+            // Creation Manager
+
+            $userManager = new User();
+            $managerEmail = 'manager'.$i.'@test.com';
+
+            $userManager->setEmail($managerEmail)
+             ->setFirstname($faker->firstname)
+             ->setLastname($faker->lastname)
+             ->setRoles(['ROLE_MANAGER'])
+             ->setCreatedAt($faker->dateTimeBetween('-6 month', 'now'))
+             ;
+
+            $managerPassword = $this->encoder->hashPassword($userManager, 'password');
+            $userManager->setPassword($managerPassword);
+
+            $manager->persist($userManager);
+
+            // create house
+            $house = new House();
+
+            $house->setName($faker->company())
+                ->setCity($faker->city())
+                ->setDescription($faker->paragraphs(4, true))
+                ->setSlug($faker->slug(3))
+                ->setBanner('/image')
+                ->setCreatedAt(new DateTime())
+                ->setUser($userManager)
+                ->setCreatedAt($faker->dateTimeBetween('-6 month', 'now'))
+            
+        ;
+
+            $manager->persist($house);
+
+            //create suites
+
+            for ($j=0; $j < 6; $j++) {
+                $suite = new Suite();
+               
+                $suite->setTitle($faker->company())
+                        ->setDescription($faker->paragraphs(3, true))
+                        ->setPrice($faker->randomFloat(2))
+                        ->setBanner('/image')
+                        ->setBookinglink($faker->url())
+                        ->setCreatedAt($faker->dateTimeBetween('-6 month', 'now'))
+                        ->setHouse($house)
+                
+                        ;
+
+                $manager->persist($suite);
+
+                // create users for reservations
+                for ($l=0; $l < 3; $l++) {
+                    $userClient = new User();
+                    $clientEmail = 'client'.$faker->randomNumber(5, true).'@test.com';
+
+                    $userClient->setEmail($clientEmail)
+                                ->setFirstname($faker->firstname)
+                                ->setLastname($faker->lastname)
+                                ->setRoles(['ROLE_USER'])
+                                ->setCreatedAt($faker->dateTimeBetween('-6 month', 'now'))
+             ;
+
+                    $clientPassword = $this->encoder->hashPassword($userClient, 'password');
+                    $userClient->setPassword($clientPassword);
+
+                    $manager->persist($userClient);
+
+                    // creates reservations
+
+                    for ($m=0; $m < 2; $m++) {
+                        $isBooked = ($faker->randomDigit()>5);
+                        if ($isBooked) {
+                            $booking = new Booking();
+    
+                            $booking->setUser($userClient)
+                                    ->setSuite($suite)
+                                    ->setStartdate($faker->dateTimeBetween('now', '+ 1 month'))
+                                    ->setEnddate($faker->dateTimeBetween('+2 month', '+3 month'))
+                                    ->setCreatedAt($faker->dateTimeBetween('-2 month', 'now'))
+                                    ;
+                            $manager->persist($booking);
+                        }
+                    }
+                }
+
+                // create images
+
+                for ($k=0; $k <6 ; $k++) {
+                    $image = new Image();
+
+                    $image->setName($faker->name())
+                            ->setPath('/image')
+                            ->setCreatedAt($faker->dateTimeBetween('-6 month', 'now'))
+                            ->setSuite($suite)
+                        ;
+                    $manager->persist($image);
+                }
+            }
+        }
+
 
 
 
