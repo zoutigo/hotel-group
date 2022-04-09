@@ -39,6 +39,9 @@ class Suite
     #[ORM\OneToMany(mappedBy: 'suite', targetEntity: Booking::class, orphanRemoval: true)]
     private $bookings;
 
+    #[ORM\OneToOne(mappedBy: 'suite', targetEntity: Album::class, cascade: ['persist', 'remove'])]
+    private $album;
+
     public function __construct()
     {
         $this->bookings = new ArrayCollection();
@@ -147,6 +150,23 @@ class Suite
                 $booking->setSuite(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAlbum(): ?Album
+    {
+        return $this->album;
+    }
+
+    public function setAlbum(Album $album): self
+    {
+        // set the owning side of the relation if necessary
+        if ($album->getSuite() !== $this) {
+            $album->setSuite($this);
+        }
+
+        $this->album = $album;
 
         return $this;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use App\Entity\Album;
 use App\Entity\Booking;
 use App\Entity\Suite;
 use DateTime;
@@ -69,5 +70,14 @@ class SuiteTestUnit extends TestCase
 
         $suite->removeBooking($booking);
         $this->assertNotContains($booking, $suite->getBookings());
+    }
+
+    public function testSetAlbum()
+    {
+        $suite = new Suite();
+        $album = new Album();
+
+        $suite->setAlbum($album);
+        $this->assertTrue($suite->getAlbum() === $album);
     }
 }

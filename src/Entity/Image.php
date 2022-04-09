@@ -24,6 +24,9 @@ class Image
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
 
+    #[ORM\ManyToOne(targetEntity: Album::class, inversedBy: 'images')]
+    private $album;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,6 +64,18 @@ class Image
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getAlbum(): ?Album
+    {
+        return $this->album;
+    }
+
+    public function setAlbum(?Album $album): self
+    {
+        $this->album = $album;
 
         return $this;
     }
