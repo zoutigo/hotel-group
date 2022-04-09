@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -76,6 +78,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @SerializedName("password")
      */
     private $plainPassword;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: House::class)]
+    private $houses;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Booking::class, orphanRemoval: true)]
+    private $bookings;
+
+    public function __construct()
+    {
+        $this->houses = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -196,6 +210,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPlainPassword(string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, House>
+     */
+    public function getHouses(): Collection
+    {
+        return $this->houses;
+    }
+
+    public function addHouse(House $house): self
+    {
+        if (!$this->houses->contains($house)) {
+            $this->houses[] = $house;
+            $house->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHouse(House $house): self
+    {
+        if ($this->houses->removeElement($house)) {
+            // set the owning side to null (unless already changed)
+            if ($house->getUser() === $this) {
+                $house->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Booking>
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): self
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings[] = $booking;
+            $booking->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): self
+    {
+        if ($this->bookings->removeElement($booking)) {
+            // set the owning side to null (unless already changed)
+            if ($booking->getUser() === $this) {
+                $booking->setUser(null);
+            }
+        }
 
         return $this;
     }
