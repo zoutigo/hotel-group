@@ -108,7 +108,7 @@ class AppFixtures extends Fixture
                
                 $suite->setTitle($faker->company())
                         ->setDescription($faker->paragraphs(3, true))
-                        ->setPrice($faker->randomFloat(2))
+                        ->setPrice($faker->randomFloat(2, 10, 1000))
                         ->setBanner('/image')
                         ->setBookinglink($faker->url())
                         ->setCreatedAt($faker->dateTimeBetween('-6 month', 'now'))
@@ -141,11 +141,17 @@ class AppFixtures extends Fixture
                         $isBooked = ($faker->randomDigit()>5);
                         if ($isBooked) {
                             $booking = new Booking();
+                            $startdate = $faker->dateTimeBetween('now', '+ 1 month');
+                            $enddate = $faker->dateTimeBetween('+2 month', '+3 month');
+                            $diff = $startdate->diff($enddate);
+                            $days = $diff->d;
+                            $price =  $days * $suite->getPrice();
     
                             $booking->setUser($userClient)
                                     ->setSuite($suite)
-                                    ->setStartdate($faker->dateTimeBetween('now', '+ 1 month'))
-                                    ->setEnddate($faker->dateTimeBetween('+2 month', '+3 month'))
+                                    ->setPrice($price)
+                                    ->setStartdate($startdate)
+                                    ->setEnddate($enddate)
                                     ->setCreatedAt($faker->dateTimeBetween('-2 month', 'now'))
                                     ;
                             $manager->persist($booking);
