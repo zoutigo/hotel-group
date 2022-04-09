@@ -24,8 +24,9 @@ class Image
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
 
-    #[ORM\ManyToOne(targetEntity: Album::class, inversedBy: 'images')]
-    private $album;
+    #[ORM\ManyToOne(targetEntity: Suite::class, inversedBy: 'images')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $suite;
 
     public function getId(): ?int
     {
@@ -68,14 +69,14 @@ class Image
         return $this;
     }
 
-    public function getAlbum(): ?Album
+    public function getSuite(): ?Suite
     {
-        return $this->album;
+        return $this->suite;
     }
 
-    public function setAlbum(?Album $album): self
+    public function setSuite(?Suite $suite): self
     {
-        $this->album = $album;
+        $this->suite = $suite;
 
         return $this;
     }

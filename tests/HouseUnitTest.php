@@ -18,6 +18,7 @@ class HouseUnitTest extends TestCase
         $house->setCity('madrid');
         $house->setDescription('la casa de papel');
         $house->setSlug('casa-papa');
+        $house->setBanner('casa');
         $house->setCreatedAt($now);
 
      
@@ -26,6 +27,7 @@ class HouseUnitTest extends TestCase
         $this->assertTrue($house->getCity() === 'madrid');
         $this->assertTrue($house->getDescription() === 'la casa de papel');
         $this->assertTrue($house->getSlug() === 'casa-papa');
+        $this->assertTrue($house->getBanner() === 'casa');
         $this->assertTrue($house->getCreatedAt()=== $now);
     }
 
@@ -39,12 +41,14 @@ class HouseUnitTest extends TestCase
         $house->setCity('madrid');
         $house->setDescription('la casa de papel');
         $house->setSlug('casa-papa');
+        $house->setBanner('casa');
         $house->setCreatedAt($now);
 
         $this->assertFalse($house->getName() === 'villa du sude');
         $this->assertFalse($house->getCity() === 'madride');
         $this->assertFalse($house->getDescription() === 'la casa de papele');
         $this->assertFalse($house->getSlug() === 'casa-papae');
+        $this->assertFalse($house->getBanner() === 'casa-papae');
         $this->assertFalse($house->getCreatedAt()=== new DateTime());
     }
 
@@ -56,6 +60,7 @@ class HouseUnitTest extends TestCase
         $this->assertEmpty($house->getCity());
         $this->assertEmpty($house->getDescription());
         $this->assertEmpty($house->getSlug());
+        $this->assertEmpty($house->getBanner());
         $this->assertEmpty($house->getCreatedAt());
     }
 

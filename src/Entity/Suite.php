@@ -39,12 +39,16 @@ class Suite
     #[ORM\OneToMany(mappedBy: 'suite', targetEntity: Booking::class, orphanRemoval: true)]
     private $bookings;
 
-    #[ORM\OneToOne(mappedBy: 'suite', targetEntity: Album::class, cascade: ['persist', 'remove'])]
-    private $album;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $banner;
+
+    #[ORM\OneToMany(mappedBy: 'suite', targetEntity: Image::class, orphanRemoval: true)]
+    private $images;
 
     public function __construct()
     {
         $this->bookings = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -154,19 +158,44 @@ class Suite
         return $this;
     }
 
-    public function getAlbum(): ?Album
+    public function getBanner(): ?string
     {
-        return $this->album;
+        return $this->banner;
     }
 
-    public function setAlbum(Album $album): self
+    public function setBanner(string $banner): self
     {
-        // set the owning side of the relation if necessary
-        if ($album->getSuite() !== $this) {
-            $album->setSuite($this);
+        $this->banner = $banner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Image>
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Image $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setSuite($this);
         }
 
-        $this->album = $album;
+        return $this;
+    }
+
+    public function removeImage(Image $image): self
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getSuite() === $this) {
+                $image->setSuite(null);
+            }
+        }
 
         return $this;
     }

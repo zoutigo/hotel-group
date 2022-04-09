@@ -2,8 +2,8 @@
 
 namespace App\Tests;
 
-use App\Entity\Album;
 use App\Entity\Booking;
+use App\Entity\Image;
 use App\Entity\Suite;
 use DateTime;
 use PHPUnit\Framework\TestCase;
@@ -19,6 +19,7 @@ class SuiteTestUnit extends TestCase
             ->setDescription('la casa de papel')
             ->setPrice(150)
             ->setBookinglink('casa-papa')
+            ->setBanner('papa')
             ->setCreatedAt($now);
 
      
@@ -27,6 +28,7 @@ class SuiteTestUnit extends TestCase
         $this->assertTrue($suite->getDescription() === 'la casa de papel');
         $this->assertTrue(($suite->getPrice() - 150)/150 <= 0) ;
         $this->assertTrue($suite->getBookinglink() === 'casa-papa');
+        $this->assertTrue($suite->getBanner() === 'papa');
         $this->assertTrue($suite->getCreatedAt()=== $now);
     }
 
@@ -40,11 +42,13 @@ class SuiteTestUnit extends TestCase
         $suite->setDescription('la casa de papele');
         $suite->setPrice(151);
         $suite->setBookinglink('casa-papale');
+        $suite->setBanner('casa');
         $suite->setCreatedAt($now);
 
         $this->assertFalse($suite->getTitle() === 'villa du sud');
         $this->assertFalse($suite->getDescription() === 'la casa de papel');
         $this->assertFalse($suite->getPrice() === 151);
+        $this->assertFalse($suite->getBanner() === 'casa-papa');
         $this->assertFalse($suite->getBookinglink() === 'casa-papa');
         $this->assertFalse($suite->getCreatedAt()=== new DateTime());
     }
@@ -57,6 +61,7 @@ class SuiteTestUnit extends TestCase
         $this->assertEmpty($suite->getDescription());
         $this->assertEmpty($suite->getPrice());
         $this->assertEmpty($suite->getBookinglink());
+        $this->assertEmpty($suite->getBanner());
         $this->assertEmpty($suite->getCreatedAt());
     }
 
@@ -71,13 +76,15 @@ class SuiteTestUnit extends TestCase
         $suite->removeBooking($booking);
         $this->assertNotContains($booking, $suite->getBookings());
     }
-
-    public function testSetAlbum()
+    public function testAddRemoveImage()
     {
         $suite = new Suite();
-        $album = new Album();
+        $image = new Image();
 
-        $suite->setAlbum($album);
-        $this->assertTrue($suite->getAlbum() === $album);
+        $suite->addImage($image);
+        $this->assertContains($image, $suite->getImages());
+
+        $suite->removeImage($image);
+        $this->assertNotContains($image, $suite->getImages());
     }
 }
