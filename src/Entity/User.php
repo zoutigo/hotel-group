@@ -73,10 +73,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $firstname;
 
 
-     /**
-     * @Groups("user:write")
-     * @SerializedName("password")
-     */
+    /**
+    * @Groups("user:write")
+    * @SerializedName("password")
+    */
     private $plainPassword;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: House::class)]
@@ -180,7 +180,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-         $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
     public function getLastname(): ?string
