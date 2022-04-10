@@ -41,6 +41,7 @@ jobs:
             apt-get install -y mysql-client
             mysql --host mydb -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}  -e 'CREATE DATABASE IF NOT EXISTS ${{env.DB_DATABASE }} /*\!40100 DEFAULT CHARACTER SET utf8;'
             mysql --host mydb -u${{env.DB_USER}} -p${{env.DB_PASSWORD}} -e "SHOW DATABASES"
+      
       # —— Setup Github actions 🐙 —————————————————————————————————————————————
       ## https://github.com/actions/checkout (official)
         - name: Checkout
@@ -97,6 +98,8 @@ jobs:
         - name: Run Migration && Load Fixtures
           env:
             APP_ENV: test
+            MYSQL_ROOT_PASSWORD: ${{env.DB_PASSWORD}}
+            MYSQL_DATABASE: ${{env.DB_DATABASE}}
           run: |
             php bin/console doctrine:schema:update --env=test --force || echo "No migrations found or schema update failed"
             php bin/console doctrine:migrations:migrate --env=test || echo "No migrations found or migration failed"
