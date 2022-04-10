@@ -39,7 +39,7 @@ jobs:
           run: |
             apt-get update
             apt-get install -y mysql-client
-            mysql --host mydb -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}  -e 'CREATE DATABASE ${{env.DB_DATABASE }} /*\!40100 DEFAULT CHARACTER SET utf8;'
+            mysql --host mydb -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}  -e 'CREATE DATABASE IF NOT EXISTS ${{env.DB_DATABASE }} /*\!40100 DEFAULT CHARACTER SET utf8;'
             mysql --host mydb -u${{env.DB_USER}} -p${{env.DB_PASSWORD}} -e "SHOW DATABASES"
       # —— Setup Github actions 🐙 —————————————————————————————————————————————
       ## https://github.com/actions/checkout (official)
