@@ -22,7 +22,7 @@ jobs:
       MYSQL_DB : symfony_project_2021
       DB_DATABASE: test_db
       DB_USER: root
-      DB_PASSWORD: root
+      DB_PASSWORD: password
       APP_ENV : test
 
     steps: 
@@ -82,13 +82,13 @@ jobs:
           run: |
             sudo /etc/init.d/mysql start
             mysql -e 'CREATE DATABASE ${{env.DB_DATABASE }};' -u${{env.DB_USER }} -p${{ env.DB_PASSWORD }}
-            mysql -e 'SHOW DATABASES;' -uroot -proot
+            mysql -e 'SHOW DATABASES;' -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}
       ## run tests
 
         - name: Run Migration && Load Fixtures
           env:
             APP_ENV: test
-            DATABASE_URL : mysql://${DB_USER}:${DB_PASSWORD}@127.0.0.1:32574/${DB_DATABASE}?serverVersion=8&charset=utf8mb4
+            DATABASE_URL : mysql://${DB_USER}:${DB_PASSWORD}@mysql:32574/${DB_DATABASE}?serverVersion=8&charset=utf8mb4
           run: |
             php bin/console doctrine:schema:update --env=test --force || echo "No migrations found or schema update failed"
             php bin/console doctrine:migrations:migrate --env=test || echo "No migrations found or migration failed"
