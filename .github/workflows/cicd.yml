@@ -2,25 +2,28 @@ name: Full CI process for Symfony 5 / React
 
 on: [push]
 
+
+
 jobs:
 
   backend :
     name: Running functional and unit test
     runs-on: ubuntu-20.04
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: false
-          MYSQL_ROOT_PASSWORD: symfony
-          MYSQL_DATABASE: symfony
-        ports:
-          - 3306/tcp
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     strategy:
       fail-fast: true
       matrix:
-        php-versions: ['7.4-apache','8']
+        php-versions: ['8']
+
+    env: 
+      MYSQL_ROOT_PASS : superSecr3t
+      MYSQL_USER : app_user
+      MYSQL_PASS : t3rceS
+      MYSQL_DB : symfony_project_2021
+      DB_DATABASE: test_db
+      DB_USER: root
+      DB_PASSWORD: root
+      APP_ENV : test
 
     steps: 
       # —— Setup Github actions 🐙 —————————————————————————————————————————————
@@ -66,12 +69,31 @@ jobs:
         - name: Install Composer dependencies
           run: composer install --no-progress --prefer-dist --optimize-autoloader
 
-        - run: composer require symfony/runtime 
-
+       
+      
         ## —— Symfony 🎵 ——————————————————————————————————————————————————————————
     
         - name: Check Symfony requirements
           run: vendor/bin/requirements-checker
+
+        ## —— Setup MySql ——————————————————————————————————————————————————————————
+    
+        - name: Set up MySQL
+          run: |
+            sudo /etc/init.d/mysql start
+            mysql -e 'CREATE DATABASE ${{env.DB_DATABASE }};' -u${{env.DB_USER }} -p${{ env.DB_PASSWORD }}
+            mysql -e 'SHOW DATABASES;' -uroot -proot
+      ## run tests
+
+        - name: Run Migration && Load Fixtures
+          env:
+            APP_ENV: test
+            DATABASE_URL : mysql://${DB_USER}:${DB_PASSWORD}@localhost:3306/${DB_DATABASE}?serverVersion=8&charset=utf8mb4
+          run: |
+            php bin/console doctrine:schema:update --env=test --force || echo "No migrations found or schema update failed"
+            php bin/console doctrine:migrations:migrate --env=test || echo "No migrations found or migration failed"
+            php bin/console doctrine:fixtures:load --no-interaction
+         
 
         ## —— JWT 💫 —————————————————————————————————————————————————————————————
         - name: Generate the SSL keys
