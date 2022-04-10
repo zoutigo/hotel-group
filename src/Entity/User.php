@@ -12,12 +12,10 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
-/**
- * @ApiResource(
- *     normalizationContext={"groups"={"user:read"}},
- *     denormalizationContext={"groups"={"user:write"}}
- * )
- */
+#[ApiResource(
+    normalizationContext: ['groups' => ['user_read']],
+    denormalizationContext: ['groups' => ['user_write']]
+)]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -25,66 +23,47 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-   /**
-    * Undocumented variable
-    * @Groups("user:read")
-    * @var [type]
-    */
+    #[Groups(["user_read"])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-     /**
-     * @Groups({"user:read", "user:write"})
-     * @var [type]
-     */
+    #[Groups(["user_read"])]
     private $email;
 
     #[ORM\Column(type: 'json')]
-   /**
-    * Undocumented variable
-    * @Groups({"user:read"})
-    * @var array
-    */
+    #[Groups(["user_read","user_write"])]
     private $roles = [];
 
 
     #[ORM\Column(type: 'string')]
-  /**
-   * Undocumented variable
-   * @var [type]
-   */
+    #[Groups(["user_read"])]
     private $password;
 
     #[ORM\Column(type: 'string', length: 255)]
-   /**
-    * Undocumented variable
-    * @Groups({"user:read", "user:write"})
-    * @var [type]
-    */
+    #[Groups(["user_read","user_write"])]
     private $lastname;
 
 
     #[ORM\Column(type: 'string', length: 255)]
-    /**
-     * Undocumented variable
-     * @Groups({"user:read", "user:write"})
-     * @var [type]
-     */
+    #[Groups(["user_read","user_write"])]
     private $firstname;
 
 
     /**
-    * @Groups("user:write")
     * @SerializedName("password")
     */
+    #[Groups(["user_write"])]
     private $plainPassword;
 
+    #[Groups(["user_read","user_write"])]
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: House::class)]
     private $houses;
 
+    #[Groups(["user_read","user_write"])]
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Booking::class, orphanRemoval: true)]
     private $bookings;
 
+    #[Groups(["user_read"])]
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
 

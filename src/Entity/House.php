@@ -9,36 +9,61 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: HouseRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => ['house_read']],
+        ],
+        'post'
+    ],
+    itemOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => ['house_details_read']],
+        ],
+        'put',
+        'patch',
+        'delete'
+    ],
+)]
+
 class House
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(["house_read", "house_details_read"])]
     private $id;
 
+    #[Groups(["house_read", "house_details_read"])]
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
+    #[Groups(["house_read", "house_details_read"])]
     #[ORM\Column(type: 'string', length: 255)]
     private $city;
 
+    #[Groups(["house_read", "house_details_read"])]
     #[ORM\Column(type: 'text')]
     private $description;
 
+    #[Groups(["house_read", "house_details_read"])]
     #[ORM\Column(type: 'string', length: 255)]
     private $slug;
 
+    #[Groups(["house_read", "house_details_read"])]
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
 
+    #[Groups(["house_details_read"])]
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'houses')]
     #[ORM\JoinColumn(nullable: false)]
     private $user;
 
+    #[Groups(["house_read", "house_details_read"])]
     #[ORM\OneToMany(mappedBy: 'house', targetEntity: Suite::class, orphanRemoval: true)]
     private $suites;
 
+    #[Groups(["house_read", "house_details_read"])]
     #[ORM\Column(type: 'string', length: 255)]
     private $banner;
 
