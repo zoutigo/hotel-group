@@ -97,12 +97,7 @@ jobs:
   
       ## run tests
 
-        - name: Run Migration && Load Fixtures
-          env:
-            APP_ENV: test
-            MYSQL_ROOT_PASSWORD: ${{env.DB_PASSWORD}}
-            MYSQL_DATABASE: ${{env.DB_DATABASE}}
-            DB_PORT: 3306
+        - name: Run Migration && Load Fixture
           uses: mydb
           run: |
             php bin/console doctrine:schema:update --env=test --force || echo "No migrations found or schema update failed"
