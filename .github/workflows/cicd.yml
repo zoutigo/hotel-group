@@ -25,7 +25,20 @@ jobs:
       DB_PASSWORD: password
       APP_ENV : test
 
+    services:
+        mydb:
+          image: mysql:5.7
+          env:
+            MYSQL_ROOT_PASSWORD: password
+          options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+
     steps: 
+        - name: Verify MySQL connection from container 
+          run: |
+            apt-get update
+            apt-get install -y mysql-client
+            mysql -e 'CREATE DATABASE ${{env.DB_DATABASE }};' -u${{env.DB_USER }} -p${{ env.DB_PASSWORD }}
+            mysql --host mydb -u${{env.DB_USER}} -p${{env.DB_PASSWORD}} -e "SHOW DATABASES"
       # —— Setup Github actions 🐙 —————————————————————————————————————————————
       ## https://github.com/actions/checkout (official)
         - name: Checkout
