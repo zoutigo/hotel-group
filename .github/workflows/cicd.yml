@@ -26,22 +26,18 @@ jobs:
       DB_HOST: 127.0.0.1 
       APP_ENV : test
 
-    services:
-      mysql:
-        image: mysql:8
-        env:
-          MYSQL_ROOT_PASSWORD: ${{env.DB_PASSWORD}}
-        ports:
-        - 32574:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+   
 
     steps: 
-        - name: Verify MySQL connection from container 
+          ## —— Setup MySql ——————————————————————————————————————————————————————————
+    
+        - name: Set up MySQL
           run: |
-            apt-get update
-            apt-get install -y mysql-client
-            mysql --host ${{env.DB_HOST}} -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}  -e 'CREATE DATABASE IF NOT EXISTS ${{env.DB_DATABASE }} /*\!40100 DEFAULT CHARACTER SET utf8;'
-            mysql --host ${{env.DB_HOST}} -u${{env.DB_USER}} -p${{env.DB_PASSWORD}} -e "SHOW DATABASES"
+            sudo /etc/init.d/mysql start
+            mysql -e 'CREATE DATABASE ${{env.DB_DATABASE }};' -u${{env.DB_USER }} -p${{ env.DB_PASSWORD }}
+            mysql -e 'SHOW DATABASES;' -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}
+            mysql -e 'SHOW GLOBAL VARIABLES LIKE 'HOSTNAME';' -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}
+            mysql -e 'SHOW GLOBAL VARIABLES LIKE 'PORT';' -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}
       
       # —— Setup Github actions 🐙 —————————————————————————————————————————————
       ## https://github.com/actions/checkout (official)
@@ -133,11 +129,5 @@ jobs:
         - name: npm run build
           run: npm run build
 
-                ## —— Setup MySql ——————————————————————————————————————————————————————————
-    
-        - name: Set up MySQL
-          run: |
-            sudo /etc/init.d/mysql start
-            mysql -e 'CREATE DATABASE ${{env.DB_DATABASE }};' -u${{env.DB_USER }} -p${{ env.DB_PASSWORD }}
-            mysql -e 'SHOW DATABASES;' -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}
+     
 
