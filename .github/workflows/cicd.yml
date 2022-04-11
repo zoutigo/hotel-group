@@ -88,8 +88,8 @@ jobs:
             mysql -uroot -h127.0.0.1 -proot -e 'CREATE DATABASE IF NOT EXISTS db1;'
             mysql -e 'CREATE DATABASE ${{env.DB_DATABASE }};' -u${{env.DB_USER }} -p${{ env.DB_PASSWORD }}
             mysql -e 'SHOW DATABASES;' -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}
-            mysql -e 'SHOW GLOBAL VARIABLES LIKE 'HOSTNAME';' -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}
-            mysql -e 'SHOW GLOBAL VARIABLES LIKE 'PORT';' -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}
+            mysql -e 'SHOW VARIABLES WHERE Variable_name = 'port';' -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}
+            mysql -e 'SHOW VARIABLES WHERE Variable_name = 'hostname';' -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}
       
         ## —— Unit Tests🎵 ——————————————————————————————————————————————————————————
     
