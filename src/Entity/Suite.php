@@ -9,40 +9,66 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SuiteRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => ['suite_read']],
+        ],
+        'post'
+    ],
+    itemOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => ['suite_details_read']],
+        ],
+        'put',
+        'patch',
+        'delete'
+    ],
+)]
+
 class Suite
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(["suite_read", "suite_details_read"])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["suite_read", "suite_details_read"])]
     private $title;
 
     #[ORM\Column(type: 'text')]
+    #[Groups(["suite_read", "suite_details_read"])]
     private $description;
 
     #[ORM\Column(type: 'float')]
+    #[Groups(["suite_read", "suite_details_read"])]
     private $price;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["suite_read", "suite_details_read"])]
     private $bookinglink;
 
     #[ORM\Column(type: 'datetime')]
+    #[Groups(["suite_read", "suite_details_read"])]
     private $createdAt;
 
     #[ORM\ManyToOne(targetEntity: House::class, inversedBy: 'suites')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(["suite_read", "suite_details_read",["house_details_read"]])]
     private $house;
 
     #[ORM\OneToMany(mappedBy: 'suite', targetEntity: Booking::class, orphanRemoval: true)]
+    #[Groups(["suite_read", "suite_details_read","booking_details_read"])]
     private $bookings;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["suite_read", "suite_details_read"])]
     private $banner;
 
     #[ORM\OneToMany(mappedBy: 'suite', targetEntity: Image::class, orphanRemoval: true)]
+    #[Groups(["suite_read", "suite_details_read"])]
     private $images;
 
     public function __construct()

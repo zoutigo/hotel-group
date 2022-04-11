@@ -8,41 +8,54 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BookingRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['booking_read']],
-    denormalizationContext: ['groups' => ['booking_write']]
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => ['booking_read']],
+        ],
+        'post'
+    ],
+    itemOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => ['booking_details_read']],
+        ],
+        'put',
+        'patch',
+        'delete'
+    ],
 )]
 class Booking
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["booking_read"])]
+    #[Groups(["booking_read", "booking_details_read","user_details_read"])]
     private $id;
 
     #[ORM\Column(type: 'datetime')]
-    #[Groups(["booking_read"])]
+    #[Groups(["booking_read", "booking_details_read","user_details_read"])]
     private $startdate;
 
     #[ORM\Column(type: 'datetime')]
-    #[Groups(["booking_read"])]
+    #[Groups(["booking_read", "booking_details_read","user_details_read"])]
     private $enddate;
 
     #[ORM\Column(type: 'datetime')]
-    #[Groups(["booking_read"])]
+    #[Groups(["booking_read", "booking_details_read","user_details_read"])]
     private $createdAt;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'bookings')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(["booking_read"])]
+    #[Groups(["booking_read", "booking_details_read","user_details_read"])]
     private $user;
 
     #[ORM\ManyToOne(targetEntity: Suite::class, inversedBy: 'bookings')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(["booking_read"])]
+    #[Groups(["booking_read", "booking_details_read","suite_details_read"])]
     private $suite;
 
     #[ORM\Column(type: 'float')]
     #[Groups(["booking_read"])]
+    #[Groups(["booking_read", "booking_details_read","user_details_read","suite_details_read"])]
     private $price;
 
     public function getId(): ?int
