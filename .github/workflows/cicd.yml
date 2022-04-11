@@ -90,7 +90,6 @@ jobs:
             mysql -e 'status ;' -u${{env.DB_USER }} -p${{ env.DB_PASSWORD }}
             mysql -e 'SHOW VARIABLES ;' -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}
             mysql -e 'SHOW DATABASES;' -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}
-            mysql -e 'SHOW VARIABLES WHERE Variable_name = 'hostname';' -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}
       
         ## —— Unit Tests🎵 ——————————————————————————————————————————————————————————
     
@@ -106,7 +105,7 @@ jobs:
             MYSQL_ROOT_PASSWORD: ${{env.DB_PASSWORD}}
             MYSQL_DATABASE: ${{env.DB_DATABASE}}
             DB_PORT: 3306
-            DATABASE_URL: mysql://${{env.DB_USER}}:${{env.DB_PASSWORD}}@127.0.0.1:32574/${{env.DB_DATABASE}}
+            DATABASE_URL: mysql://${{env.DB_USER}}:${{env.DB_PASSWORD}}@127.0.0.1:3306/${{env.DB_DATABASE}}
           run: |
            
             php bin/console doctrine:schema:update --env=test --force || echo "No migrations found or schema update failed"
