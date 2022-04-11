@@ -7,18 +7,36 @@ use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => ['image_read']],
+        ],
+        'post'
+    ],
+    itemOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => ['image_details_read']],
+        ],
+        'put',
+        'patch',
+        'delete'
+    ],
+)]
 class Image
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(["image_read", "suite_details_read"])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["image_read", "suite_details_read"])]
     private $name;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["image_read", "suite_details_read"])]
     private $path;
 
     #[ORM\Column(type: 'datetime')]
@@ -26,6 +44,7 @@ class Image
 
     #[ORM\ManyToOne(targetEntity: Suite::class, inversedBy: 'images')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(["image_read", "suite_details_read"])]
     private $suite;
 
     public function getId(): ?int

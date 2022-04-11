@@ -7,42 +7,106 @@ use App\Repository\SuiteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SuiteRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => ['suite_read']],
+        ],
+        'post'
+    ],
+    itemOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => ['suite_details_read']],
+        ],
+        'put',
+        'patch',
+        'delete'
+    ],
+)]
+
 class Suite
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(["suite_read", "suite_details_read"])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["suite_read", "suite_details_read"])]
+    #[Assert\NotBlank(
+        message: "Le titre est obligatoire.",
+    )]
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: 'le titre doit avoir {{limit}} caractères au moins',
+        maxMessage: 'le titre  doit avoir {{limit}} caractères au plus',
+    )]
+    #[Assert\Type("alnum")]
     private $title;
 
     #[ORM\Column(type: 'text')]
+    #[Groups(["suite_read", "suite_details_read"])]
+    #[Assert\NotBlank(
+        message: "La description est obligatoire.",
+    )]
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: 'La description  doit avoir {{limit}} caractères au moins',
+        maxMessage: 'La description   doit avoir {{limit}} caractères au plus',
+    )]
+    #[Assert\Type("alnum")]
     private $description;
 
     #[ORM\Column(type: 'float')]
+    #[Groups(["suite_read", "suite_details_read"])]
+    #[Assert\NotBlank(
+        message: "Le prix est obligatoire.",
+    )]
+    #[Assert\Range(
+        min: 100,
+        max: 10000,
+        notInRangeMessage: 'Les prix doit etre compris entre {{ min }}€ and {{ max }}€ ',
+    )]
+    #[Assert\Type("float")]
     private $price;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["suite_read", "suite_details_read"])]
+    #[Assert\NotBlank(
+        message: "Le lien booking.com est obligatoire.",
+    )]
+    #[Assert\Url(protocols: ['http', 'https'], message:'Le lien booking doit etre une url')]
     private $bookinglink;
 
     #[ORM\Column(type: 'datetime')]
+    #[Groups(["suite_read", "suite_details_read"])]
     private $createdAt;
 
     #[ORM\ManyToOne(targetEntity: House::class, inversedBy: 'suites')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(["suite_read", "suite_details_read",["house_details_read"]])]
     private $house;
 
     #[ORM\OneToMany(mappedBy: 'suite', targetEntity: Booking::class, orphanRemoval: true)]
+    #[Groups(["suite_read", "suite_details_read","booking_details_read"])]
     private $bookings;
 
+    #[Assert\NotBlank(
+        message: "L'image principale est obligatoire",
+    )]
+    #[Assert\Type("alnum")]
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["suite_read", "suite_details_read"])]
     private $banner;
 
     #[ORM\OneToMany(mappedBy: 'suite', targetEntity: Image::class, orphanRemoval: true)]
+    #[Groups(["suite_read", "suite_details_read"])]
     private $images;
 
     public function __construct()

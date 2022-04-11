@@ -7,39 +7,98 @@ use App\Repository\HouseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: HouseRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => ['house_read']],
+        ],
+        'post'
+    ],
+    itemOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => ['house_details_read']],
+        ],
+        'put',
+        'patch',
+        'delete'
+    ],
+)]
+
 class House
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(["house_read", "house_details_read"])]
     private $id;
 
+    #[Groups(["house_read", "house_details_read"])]
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(
+        message: "Le nom est obligatoire.",
+    )]
+    #[Assert\Length(
+        min: 2,
+        max: 30,
+        minMessage: 'Le nom doit avoir {{limit}} caractères au moins',
+        maxMessage: 'Le nom  doit avoir {{limit}} caractères au plus',
+    )]
+    #[Assert\Type("alnum")]
     private $name;
 
+    #[Groups(["house_read", "house_details_read"])]
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(
+        message: "La ville est obligatoire.",
+    )]
+    #[Assert\Length(
+        min: 2,
+        max: 30,
+        minMessage: 'La ville doit avoir {{limit}} caractères au moins',
+        maxMessage: 'La ville  doit avoir {{limit}} caractères au plus',
+    )]
+    #[Assert\Type("alnum")]
     private $city;
 
+    #[Groups(["house_read", "house_details_read"])]
     #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank(
+        message: "La description est obligatoire.",
+    )]
+    #[Assert\Length(
+        min: 15,
+        max: 1000,
+        minMessage: 'La description doit avoir {{limit}} caractères au moins',
+        maxMessage: 'La description  doit avoir {{limit}} caractères au plus',
+    )]
+    #[Assert\Type("alnum")]
     private $description;
 
+    #[Groups(["house_read", "house_details_read"])]
     #[ORM\Column(type: 'string', length: 255)]
     private $slug;
 
+    #[Groups(["house_read", "house_details_read"])]
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
 
+    #[Groups(["house_details_read"])]
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'houses')]
     #[ORM\JoinColumn(nullable: false)]
     private $user;
 
+    #[Groups(["house_read", "house_details_read"])]
     #[ORM\OneToMany(mappedBy: 'house', targetEntity: Suite::class, orphanRemoval: true)]
     private $suites;
 
+    #[Groups(["house_read", "house_details_read"])]
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(
+        message: "L'image de présentation est obligatoire.",
+    )]
     private $banner;
 
     public function __construct()

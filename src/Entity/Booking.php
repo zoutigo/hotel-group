@@ -5,34 +5,67 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\BookingRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: BookingRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => ['booking_read']],
+        ],
+        'post'
+    ],
+    itemOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => ['booking_details_read']],
+        ],
+        'put',
+        'patch',
+        'delete'
+    ],
+)]
 class Booking
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(["booking_read", "booking_details_read","user_details_read"])]
     private $id;
 
     #[ORM\Column(type: 'datetime')]
+    #[Groups(["booking_read", "booking_details_read","user_details_read"])]
+    #[Assert\NotBlank(
+        message: "La date de début est obligatoire.",
+    )]
+    #[Assert\DateTime(message:'la date de debut doit etre au format datetime')]
+
     private $startdate;
 
     #[ORM\Column(type: 'datetime')]
+    #[Groups(["booking_read", "booking_details_read","user_details_read"])]
+    #[Assert\NotBlank(
+        message: "La date de fin est obligatoire.",
+    )]
+    #[Assert\DateTime(message:'la date de fin doit etre au format datetime')]
     private $enddate;
 
     #[ORM\Column(type: 'datetime')]
+    #[Groups(["booking_read", "booking_details_read","user_details_read"])]
     private $createdAt;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'bookings')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(["booking_read", "booking_details_read","user_details_read"])]
     private $user;
 
     #[ORM\ManyToOne(targetEntity: Suite::class, inversedBy: 'bookings')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(["booking_read", "booking_details_read","suite_details_read"])]
     private $suite;
 
     #[ORM\Column(type: 'float')]
+    #[Groups(["booking_read"])]
+    #[Groups(["booking_read", "booking_details_read","user_details_read","suite_details_read"])]
     private $price;
 
     public function getId(): ?int

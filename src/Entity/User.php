@@ -11,80 +11,101 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ApiResource(
- *     normalizationContext={"groups"={"user:read"}},
- *     denormalizationContext={"groups"={"user:write"}}
- * )
- */
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => ['user_read']],
+        ],
+        'post'
+    ],
+    itemOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => ['user_details_read']],
+        ],
+        'put',
+        'patch',
+        'delete'
+    ],
+)]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
+
+#[UniqueEntity("email", message: "Cette email est deja utilisé")]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-   /**
-    * Undocumented variable
-    * @Groups("user:read")
-    * @var [type]
-    */
+    #[Groups(["user_read","user_details_read"])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-     /**
-     * @Groups({"user:read", "user:write"})
-     * @var [type]
-     */
+    #[Groups(["user_read","user_details_read"])]
+    #[Assert\NotBlank(
+        message: "Le mail est obligatoire.",
+    )]
+    #[Assert\Email(
+        mode:'html5',
+        message: "Le mail {{ value }} n'est pas valide.",
+    )]
     private $email;
 
     #[ORM\Column(type: 'json')]
-   /**
-    * Undocumented variable
-    * @Groups({"user:read"})
-    * @var array
-    */
+    #[Groups(["user_read","user_details_read"])]
     private $roles = [];
 
 
     #[ORM\Column(type: 'string')]
-  /**
-   * Undocumented variable
-   * @var [type]
-   */
     private $password;
 
     #[ORM\Column(type: 'string', length: 255)]
-   /**
-    * Undocumented variable
-    * @Groups({"user:read", "user:write"})
-    * @var [type]
-    */
+    #[Groups(["user_read","user_details_read"])]
+    #[Assert\NotBlank(
+        message: "le nom est obligatoire.",
+    )]
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: 'le nom doit avoir {{limit}} caractères au moins',
+        maxMessage: 'le nom  doit avoir {{limit}} caractères au plus',
+    )]
+    #[Assert\Type("alnum")]
     private $lastname;
 
 
     #[ORM\Column(type: 'string', length: 255)]
-    /**
-     * Undocumented variable
-     * @Groups({"user:read", "user:write"})
-     * @var [type]
-     */
+    #[Groups(["user_read","user_details_read"])]
+    #[Assert\NotBlank(
+        message: "le prénom est obligatoire.",
+    )]
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: 'le prénom doit avoir {{limit}} caractères au moins',
+        maxMessage: 'le prénom  doit avoir {{limit}} caractères au plus',
+    )]
+    #[Assert\Type("alnum")]
     private $firstname;
 
 
-     /**
-     * @Groups("user:write")
-     * @SerializedName("password")
-     */
+    /**
+    * @SerializedName("password")
+    */
+    #[Groups(["user_write"])]
     private $plainPassword;
 
+    #[Groups(["user_read","user_details_read"])]
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: House::class)]
     private $houses;
 
+    #[Groups(["user_read","user_details_read"])]
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Booking::class, orphanRemoval: true)]
     private $bookings;
 
+    #[Groups(["user_read","user_details_read"])]
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
 
@@ -180,7 +201,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-         $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
     public function getLastname(): ?string
