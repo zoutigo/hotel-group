@@ -87,6 +87,7 @@ jobs:
             sudo /etc/init.d/mysql start
             mysql -uroot -h127.0.0.1 -proot -e 'CREATE DATABASE IF NOT EXISTS db1;'
             mysql -e 'CREATE DATABASE ${{env.DB_DATABASE }};' -u${{env.DB_USER }} -p${{ env.DB_PASSWORD }}
+            mysql -e 'status ;' -u${{env.DB_USER }} -p${{ env.DB_PASSWORD }}
             mysql -e 'SHOW DATABASES;' -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}
             mysql -e 'SHOW VARIABLES WHERE Variable_name = 'port';' -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}
             mysql -e 'SHOW VARIABLES WHERE Variable_name = 'hostname';' -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}
