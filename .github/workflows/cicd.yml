@@ -29,16 +29,7 @@ jobs:
    
 
     steps: 
-          ## —— Setup MySql ——————————————————————————————————————————————————————————
-    
-        - name: Set up MySQL
-          run: |
-            sudo /etc/init.d/mysql start
-            mysql -e 'CREATE DATABASE ${{env.DB_DATABASE }};' -u${{env.DB_USER }} -p${{ env.DB_PASSWORD }}
-            mysql -e 'SHOW DATABASES;' -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}
-            mysql -e 'SHOW GLOBAL VARIABLES LIKE 'HOSTNAME';' -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}
-            mysql -e 'SHOW GLOBAL VARIABLES LIKE 'PORT';' -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}
-      
+ 
       # —— Setup Github actions 🐙 —————————————————————————————————————————————
       ## https://github.com/actions/checkout (official)
         - name: Checkout
@@ -89,7 +80,16 @@ jobs:
         - name: Check Symfony requirements
           run: vendor/bin/requirements-checker
 
-  
+           ## —— Setup MySql ——————————————————————————————————————————————————————————
+    
+        - name: Set up MySQL
+          run: |
+            sudo /etc/init.d/mysql start
+            mysql -e 'CREATE DATABASE ${{env.DB_DATABASE }};' -u${{env.DB_USER }} -p${{ env.DB_PASSWORD }}
+            mysql -e 'SHOW DATABASES;' -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}
+            mysql -e 'SHOW GLOBAL VARIABLES LIKE 'HOSTNAME';' -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}
+            mysql -e 'SHOW GLOBAL VARIABLES LIKE 'PORT';' -u${{env.DB_USER}} -p${{env.DB_PASSWORD}}
+      
         ## —— Unit Tests🎵 ——————————————————————————————————————————————————————————
     
         - name: php-unit
