@@ -11,6 +11,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     collectionOperations: [
@@ -30,6 +32,8 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 )]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
+
+#[UniqueEntity("email", message: "Cette email est deja utilisé")]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -40,6 +44,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Groups(["user_read","user_details_read"])]
+    #[Assert\NotBlank(
+        message: "Le mail est obligatoire.",
+    )]
+    #[Assert\Email(
+        mode:'html5',
+        message: "Le mail {{ value }} n'est pas valide.",
+    )]
     private $email;
 
     #[ORM\Column(type: 'json')]
@@ -52,11 +63,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(["user_read","user_details_read"])]
+    #[Assert\NotBlank(
+        message: "le nom est obligatoire.",
+    )]
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: 'le nom doit avoir {{limit}} caractères au moins',
+        maxMessage: 'le nom  doit avoir {{limit}} caractères au plus',
+    )]
+    #[Assert\Type("alnum")]
     private $lastname;
 
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(["user_read","user_details_read"])]
+    #[Assert\NotBlank(
+        message: "le prénom est obligatoire.",
+    )]
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: 'le prénom doit avoir {{limit}} caractères au moins',
+        maxMessage: 'le prénom  doit avoir {{limit}} caractères au plus',
+    )]
+    #[Assert\Type("alnum")]
     private $firstname;
 
 

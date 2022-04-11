@@ -59,6 +59,9 @@ function ContactForm({ queryKey, queryParams, poster }) {
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
       <List>
+        <ListItem> le nom</ListItem>
+        <ListItem> le prénom</ListItem>
+        <ListItem> le mail</ListItem>
         <ListItem>
           <TextInput
             control={control}

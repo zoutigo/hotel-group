@@ -7,6 +7,7 @@ use App\Repository\HouseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: HouseRepository::class)]
 #[ApiResource(
@@ -36,14 +37,44 @@ class House
 
     #[Groups(["house_read", "house_details_read"])]
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(
+        message: "Le nom est obligatoire.",
+    )]
+    #[Assert\Length(
+        min: 2,
+        max: 30,
+        minMessage: 'Le nom doit avoir {{limit}} caractères au moins',
+        maxMessage: 'Le nom  doit avoir {{limit}} caractères au plus',
+    )]
+    #[Assert\Type("alnum")]
     private $name;
 
     #[Groups(["house_read", "house_details_read"])]
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(
+        message: "La ville est obligatoire.",
+    )]
+    #[Assert\Length(
+        min: 2,
+        max: 30,
+        minMessage: 'La ville doit avoir {{limit}} caractères au moins',
+        maxMessage: 'La ville  doit avoir {{limit}} caractères au plus',
+    )]
+    #[Assert\Type("alnum")]
     private $city;
 
     #[Groups(["house_read", "house_details_read"])]
     #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank(
+        message: "La description est obligatoire.",
+    )]
+    #[Assert\Length(
+        min: 15,
+        max: 1000,
+        minMessage: 'La description doit avoir {{limit}} caractères au moins',
+        maxMessage: 'La description  doit avoir {{limit}} caractères au plus',
+    )]
+    #[Assert\Type("alnum")]
     private $description;
 
     #[Groups(["house_read", "house_details_read"])]
@@ -65,6 +96,9 @@ class House
 
     #[Groups(["house_read", "house_details_read"])]
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(
+        message: "L'image de présentation est obligatoire.",
+    )]
     private $banner;
 
     public function __construct()

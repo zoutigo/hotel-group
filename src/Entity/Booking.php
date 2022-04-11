@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\BookingRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: BookingRepository::class)]
 #[ApiResource(
@@ -33,10 +34,19 @@ class Booking
 
     #[ORM\Column(type: 'datetime')]
     #[Groups(["booking_read", "booking_details_read","user_details_read"])]
+    #[Assert\NotBlank(
+        message: "La date de début est obligatoire.",
+    )]
+    #[Assert\DateTime(message:'la date de debut doit etre au format datetime')]
+
     private $startdate;
 
     #[ORM\Column(type: 'datetime')]
     #[Groups(["booking_read", "booking_details_read","user_details_read"])]
+    #[Assert\NotBlank(
+        message: "La date de fin est obligatoire.",
+    )]
+    #[Assert\DateTime(message:'la date de fin doit etre au format datetime')]
     private $enddate;
 
     #[ORM\Column(type: 'datetime')]
