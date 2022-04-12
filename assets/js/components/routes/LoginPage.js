@@ -28,7 +28,8 @@ function LoginPage() {
   const { palette } = useTheme()
   const history = useHistory()
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
-  const { dispatch } = useAppContext()
+  const { dispatch, state } = useAppContext()
+  const { cart } = state
 
   const queryKey = ['login']
 
@@ -46,7 +47,7 @@ function LoginPage() {
           dispatch({ type: 'USER_LOGIN', payload: userInfo })
           Cookies.set('userInfo', JSON.stringify(userInfo))
           const { from } = location.state || { from: { pathname: '/' } }
-          history.replace(from)
+          history.replace(cart.cartItems.length > 0 ? '/reserver' : from)
         }
       })
     } catch (err) {
@@ -77,16 +78,14 @@ function LoginPage() {
                 variant="filled"
                 example=""
                 rules={{
-                  required: "le nom de l'album est obligatoire",
+                  required: "l'identifiant",
                   minLength: {
                     value: 2,
-                    message:
-                      "le nom de l'album doit avoir 2 caractères au moins",
+                    message: "l'identifiant doit avoir 2 caractères au moins",
                   },
                   maxLength: {
                     value: 30,
-                    message:
-                      "le nom de l'album doit avoir 30 caractères au moins",
+                    message: "l'identifiant doit avoir 30 caractères au plus",
                   },
                 }}
               />
@@ -100,15 +99,11 @@ function LoginPage() {
                 variant="filled"
                 example=""
                 rules={{
-                  required: "le nom de l'album est obligatoire",
-                  minLength: {
-                    value: 2,
-                    message: '',
-                  },
+                  required: 'le mot de pass est obligatoire',
+
                   maxLength: {
                     value: 30,
-                    message:
-                      "le nom de l'album doit avoir 30 caractères au moins",
+                    message: 'le mot de pass doit avoir 30 caractères au plus',
                   },
                 }}
               />
@@ -124,7 +119,9 @@ function LoginPage() {
               <StyledNavLink
                 to={{
                   pathname: '/register',
-                  from: location.pathname,
+                  state: {
+                    from: location.pathname,
+                  },
                 }}
               >
                 Inscrivez vous

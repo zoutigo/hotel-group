@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { List, ListItem, Typography } from '@mui/material'
 import { useTheme } from '@mui/styles'
 import React, { useEffect } from 'react'
@@ -10,13 +11,16 @@ import StyledPage from '../customs/StyledPage'
 import StyledSection from '../customs/StyledSection'
 import TextInput from '../form/TextInput'
 import useMutate from '../hook/useMutate'
-import { apiRegister } from '../utils/api'
+import { apiLogin, apiRegister } from '../utils/api'
 import getError from '../utils/getError'
 import useAppContext from '../hook/useAppContext'
 import useStyles from '../../style'
 import ButtonPrimary from '../customs/ButtonPrimary'
 import Bread from '../customs/Bread'
 import PageTitle from '../customs/PageTitle'
+import useIslogged from '../hook/useIsLogged'
+import { emailPattern, passwordPattern } from '../constants/patterns'
+import setUserDatas from '../utils/setUserDatas'
 
 function RegisterPage() {
   const location = useLocation()
@@ -25,11 +29,14 @@ function RegisterPage() {
   const history = useHistory()
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const { dispatch, state } = useAppContext()
-  const { userInfo } = state
+  const { userInfo, cart } = state
+  const isLogged = useIslogged()
 
   const queryKey = ['register']
 
   const { mutateAsync, isMutating } = useMutate(queryKey, apiRegister)
+  const { mutateAsync: loginMutateAsync, isMutating: logingIsMutating } =
+    useMutate(['login'], apiLogin)
   const {
     control,
     handleSubmit,
@@ -41,14 +48,28 @@ function RegisterPage() {
   })
 
   const onSubmit = async (datas) => {
+    const { email, password, lastname, firstname } = datas
+    const registerDatas = { email, password, lastname, firstname }
+    const loginDatas = { username: email, password }
     closeSnackbar()
     try {
-      await mutateAsync(datas).then((response) => {
+      await mutateAsync(registerDatas).then(async (response) => {
         if (response && response.status === 201) {
-          dispatch({ type: 'USER_LOGIN', payload: response.data })
-          Cookies.set('userInfo', JSON.stringify(response.data))
-          const { from } = location.state || { from: { pathname: '/' } }
-          history.replace(from)
+          await loginMutateAsync(loginDatas).then((loginResponse) => {
+            if (loginResponse && loginResponse.status === 200) {
+              const userInfos = setUserDatas(loginResponse)
+              dispatch({ type: 'USER_LOGIN', payload: userInfos })
+              Cookies.set('userInfo', JSON.stringify(userInfos))
+              const { from } = location.state || { from: { pathname: '/' } }
+              history.push(
+                cart.cartItems.length > 0
+                  ? '/reservation'
+                  : from === '/login'
+                  ? '/reservation'
+                  : from
+              )
+            }
+          })
         }
       })
     } catch (err) {
@@ -57,16 +78,18 @@ function RegisterPage() {
   }
 
   useEffect(() => {
-    if (userInfo) {
+    if (isLogged) {
       history.push('/')
     }
   }, [])
+
+  const buttonText = `S'inscrire`
 
   return (
     <StyledPage>
       <StyledSection background={palette.white.main}>
         <Bread title="inscription" />
-        <PageTitle>Connectez vous</PageTitle>
+        <PageTitle>Inscription</PageTitle>
 
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
           <List className={classes.formList}>
@@ -80,14 +103,9 @@ function RegisterPage() {
                 example=""
                 rules={{
                   required: 'le mail est obligatoire',
-                  minLength: {
-                    value: 2,
-                    message: 'le mail doit avoir 2 caractères au moins',
-                  },
-                  maxLength: {
-                    value: 30,
-                    message:
-                      "le nom de l'album doit avoir 30 caractères au moins",
+                  pattern: {
+                    value: emailPattern,
+                    message: 'Format mail invalide',
                   },
                 }}
               />
@@ -111,7 +129,7 @@ function RegisterPage() {
                     message: 'maximum 8 caractères',
                   },
                   pattern: {
-                    value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$/,
+                    value: passwordPattern,
                     message:
                       'au moins 8 caractères, dont 1 majuscule, 1 minuscule et un chiffre',
                   },
@@ -151,8 +169,53 @@ function RegisterPage() {
               />
             </ListItem>
             <ListItem>
-              <ButtonPrimary disabled={isMutating || isSubmitting}>
-                Se Connecter
+              <TextInput
+                control={control}
+                name="firstname"
+                label="Prénom "
+                defaultValue=""
+                variant="filled"
+                example=""
+                rules={{
+                  required: 'le prénom est obligatoire',
+                  minLength: {
+                    value: 2,
+                    message: 'le prénom doit avoir 2 caractères au moins',
+                  },
+                  maxLength: {
+                    value: 30,
+                    message: 'le prénom doit avoir 30 caractères au plus',
+                  },
+                }}
+              />
+            </ListItem>
+            <ListItem>
+              <TextInput
+                control={control}
+                name="lastname"
+                label="Nom "
+                defaultValue=""
+                variant="filled"
+                example=""
+                rules={{
+                  required: 'le nom est obligatoire',
+                  minLength: {
+                    value: 2,
+                    message: 'le nom doit avoir 2 caractères au moins',
+                  },
+                  maxLength: {
+                    value: 30,
+                    message: 'le nom doit avoir 30 caractères au plus',
+                  },
+                }}
+              />
+            </ListItem>
+            <ListItem>
+              <ButtonPrimary
+                type="submit"
+                disabled={isMutating || logingIsMutating || isSubmitting}
+              >
+                {buttonText}
               </ButtonPrimary>
             </ListItem>
           </List>
