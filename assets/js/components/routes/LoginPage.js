@@ -18,15 +18,17 @@ import ButtonPrimary from '../customs/ButtonPrimary'
 import Bread from '../customs/Bread'
 import PageTitle from '../customs/PageTitle'
 import StyledNavLink from '../customs/StyledNavLink'
+import setUserDatas from '../utils/setUserDatas'
+import useIslogged from '../hook/useIsLogged'
 
 function LoginPage() {
+  const isLogged = useIslogged()
   const location = useLocation()
   const classes = useStyles()
   const { palette } = useTheme()
   const history = useHistory()
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
-  const { dispatch, state } = useAppContext()
-  const { userInfo } = state
+  const { dispatch } = useAppContext()
 
   const queryKey = ['login']
 
@@ -40,8 +42,9 @@ function LoginPage() {
     try {
       await mutateAsync(datas).then((response) => {
         if (response && response.status === 200) {
-          dispatch({ type: 'USER_LOGIN', payload: response.data })
-          Cookies.set('userInfo', JSON.stringify(response.data))
+          const userInfo = setUserDatas(response)
+          dispatch({ type: 'USER_LOGIN', payload: userInfo })
+          Cookies.set('userInfo', JSON.stringify(userInfo))
           const { from } = location.state || { from: { pathname: '/' } }
           history.replace(from)
         }
@@ -52,7 +55,7 @@ function LoginPage() {
   }
 
   useEffect(() => {
-    if (userInfo) {
+    if (isLogged) {
       history.push('/')
     }
   }, [])
@@ -68,7 +71,7 @@ function LoginPage() {
             <ListItem className="field">
               <TextInput
                 control={control}
-                name="email"
+                name="username"
                 label="Email"
                 defaultValue=""
                 variant="filled"
