@@ -1,0 +1,17 @@
+
+{
+    "eslint.options": {
+      "overrideConfig": {
+        "parserOptions": {
+          "ecmaVersion": 6
+        },
+        "env": {
+          "es6": true
+        }
+      }
+    },
+    "editor.formatOnSave": true
+  }
+
+
+  
