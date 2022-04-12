@@ -77,16 +77,14 @@ function LoginPage() {
                 variant="filled"
                 example=""
                 rules={{
-                  required: "le nom de l'album est obligatoire",
+                  required: "l'identifiant",
                   minLength: {
                     value: 2,
-                    message:
-                      "le nom de l'album doit avoir 2 caractères au moins",
+                    message: "l'identifiant doit avoir 2 caractères au moins",
                   },
                   maxLength: {
                     value: 30,
-                    message:
-                      "le nom de l'album doit avoir 30 caractères au moins",
+                    message: "l'identifiant doit avoir 30 caractères au plus",
                   },
                 }}
               />
@@ -100,15 +98,11 @@ function LoginPage() {
                 variant="filled"
                 example=""
                 rules={{
-                  required: "le nom de l'album est obligatoire",
-                  minLength: {
-                    value: 2,
-                    message: '',
-                  },
+                  required: 'le mot de pass est obligatoire',
+
                   maxLength: {
                     value: 30,
-                    message:
-                      "le nom de l'album doit avoir 30 caractères au moins",
+                    message: 'le mot de pass doit avoir 30 caractères au plus',
                   },
                 }}
               />
