@@ -10,11 +10,6 @@ const commonHeaders = {
   Accept: 'application/json',
 }
 
-// export const apiLogin = async (datas) => {
-//   const URL = `${PREFIX}/api/login_check`
-//   const response = await axios.post(URL, datas)
-//   return response
-// }
 export const apiLogin = async (datas) => {
   const URL = `/api/login_check`
   const response = await axios({
@@ -25,11 +20,14 @@ export const apiLogin = async (datas) => {
   })
   return response
 }
-
 export const apiRegister = async (datas) => {
-  const URL = `${PREFIX}/api/register`
-
-  const response = await axios.post(URL, datas)
+  const URL = `/api/users`
+  const response = await axios({
+    method: 'post',
+    url: URL,
+    data: datas,
+    headers: { ...commonHeaders },
+  })
   return response
 }
 

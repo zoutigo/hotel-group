@@ -25,6 +25,8 @@ security:
             security: false
         login:
             pattern: ^/api/login
+            login_throttling:
+                max_attempts: 5
             stateless: true
             json_login:
                 check_path: /api/login_check # or api_login_check as defined in config/routes.yaml

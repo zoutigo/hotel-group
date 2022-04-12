@@ -4,9 +4,6 @@ declare(strict_types=1);
 namespace App\EventSubscriber;
 
 use DateTime;
-use App\Entity\House;
-use App\Entity\Image;
-use App\Entity\Booking;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use ApiPlatform\Core\EventListener\EventPriorities;

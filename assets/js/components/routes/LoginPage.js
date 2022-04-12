@@ -28,7 +28,8 @@ function LoginPage() {
   const { palette } = useTheme()
   const history = useHistory()
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
-  const { dispatch } = useAppContext()
+  const { dispatch, state } = useAppContext()
+  const { cart } = state
 
   const queryKey = ['login']
 
@@ -46,7 +47,7 @@ function LoginPage() {
           dispatch({ type: 'USER_LOGIN', payload: userInfo })
           Cookies.set('userInfo', JSON.stringify(userInfo))
           const { from } = location.state || { from: { pathname: '/' } }
-          history.replace(from)
+          history.replace(cart.cartItems.length > 0 ? '/reserver' : from)
         }
       })
     } catch (err) {
@@ -118,7 +119,9 @@ function LoginPage() {
               <StyledNavLink
                 to={{
                   pathname: '/register',
-                  from: location.pathname,
+                  state: {
+                    from: location.pathname,
+                  },
                 }}
               >
                 Inscrivez vous
