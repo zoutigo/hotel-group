@@ -20,10 +20,10 @@ class DefaultController extends AbstractController
         ]);
     }
 
-     /**
-     * @Route("/api/test/users", name="users")
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
-     */
+    /**
+    * @Route("/api/test/users", name="users")
+    * @return \Symfony\Component\HttpFoundation\JsonResponse
+    */
     public function getUsers()
     {
         $users = [
