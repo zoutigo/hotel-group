@@ -18,6 +18,7 @@ import ButtonNavbar from './customs/ButtonNavBar'
 import StyledNavLink from './customs/StyledNavLink'
 import pages from './constants/pages'
 import useStyles from '../style'
+import useIslogged from './hook/useIsLogged'
 
 const routesExclusions = [
   '/liste-des-etablissements/slug',
@@ -46,7 +47,7 @@ const noclickSettings = [
 ]
 
 function Header() {
-  const [isAuth, setIsAuth] = React.useState(true)
+  const isLogged = useIslogged()
   const [anchorElNav, setAnchorElNav] = React.useState(null)
   const [anchorElUser, setAnchorElUser] = React.useState(null)
 
@@ -163,7 +164,7 @@ function Header() {
                 </StyledNavLink>
               ))}
             </Box>
-            {!isAuth ? (
+            {!isLogged ? (
               <StyledNavLink
                 to={{
                   pathname: loginRoute.path,
