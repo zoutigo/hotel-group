@@ -104,21 +104,12 @@ function SuiteCreateForm({ queryKey, queryParams, action, poster }) {
                   Number(value) || 'le prix doit etre un chiffre',
               },
               min: {
-<<<<<<< HEAD
-                value: 20,
-                message: 'le prix doit etre supérieur à 20€',
-              },
-              max: {
-                value: 100000,
-                message: 'le prix doit etre inférieur à 100000 €',
-=======
                 value: 100,
                 message: 'le prix doit etre supérieur à 100€',
               },
               max: {
                 value: 10000,
                 message: 'le prix doit etre inférieur à 10000 €',
->>>>>>> develop
               },
             }}
           />
@@ -132,11 +123,7 @@ function SuiteCreateForm({ queryKey, queryParams, action, poster }) {
             variant="filled"
             example="example: http://booking.com/mercure"
             rules={{
-<<<<<<< HEAD
-              required: 'le lien booking est obligatoire',
-=======
               required: 'le lien booking.com est obligatoire',
->>>>>>> develop
               pattern: {
                 value:
                   /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm,
