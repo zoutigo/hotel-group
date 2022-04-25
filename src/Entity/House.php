@@ -2,20 +2,35 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\HouseRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\User;
+use App\Entity\Suite;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\HouseRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
+// use Symfony\Component\Serializer\Annotation\Groups;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @Vich\Uploadable
+ */
 #[ORM\Entity(repositoryClass: HouseRepository::class)]
 #[ApiResource(
     collectionOperations: [
         'get' => [
             'normalization_context' => ['groups' => ['house_read']],
+            
         ],
-        'post'
+        'post'=> [
+            'denormalization_context' => ['groups' => ['house_write']],
+            'input_formats' => [
+                'multipart' => ['multipart/form-data'],
+            ],
+        ]
     ],
     itemOperations: [
         'get' => [
@@ -35,7 +50,7 @@ class House
     #[Groups(["house_read", "house_details_read"])]
     private $id;
 
-    #[Groups(["house_read", "house_details_read"])]
+    #[Groups(["house_read", "house_details_read","house_write"])]
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(
         message: "Le nom est obligatoire.",
@@ -43,13 +58,13 @@ class House
     #[Assert\Length(
         min: 2,
         max: 30,
-        minMessage: 'Le nom doit avoir {{limit}} caractères au moins',
-        maxMessage: 'Le nom  doit avoir {{limit}} caractères au plus',
+        minMessage: 'Le nom doit avoir 2 caractères au moins',
+        maxMessage: 'Le nom  doit avoir 30 caractères au plus',
     )]
     #[Assert\Type("alnum")]
     private $name;
 
-    #[Groups(["house_read", "house_details_read"])]
+    #[Groups(["house_read", "house_details_read","house_write"])]
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(
         message: "La ville est obligatoire.",
@@ -57,13 +72,13 @@ class House
     #[Assert\Length(
         min: 2,
         max: 30,
-        minMessage: 'La ville doit avoir {{limit}} caractères au moins',
-        maxMessage: 'La ville  doit avoir {{limit}} caractères au plus',
+        minMessage: 'La ville doit avoir 2 caractères au moins',
+        maxMessage: 'La ville  doit avoir 30 caractères au plus',
     )]
     #[Assert\Type("alnum")]
     private $city;
 
-    #[Groups(["house_read", "house_details_read"])]
+    #[Groups(["house_read", "house_details_read","house_write"])]
     #[ORM\Column(type: 'text')]
     #[Assert\NotBlank(
         message: "La description est obligatoire.",
@@ -71,13 +86,13 @@ class House
     #[Assert\Length(
         min: 15,
         max: 1000,
-        minMessage: 'La description doit avoir {{limit}} caractères au moins',
-        maxMessage: 'La description  doit avoir {{limit}} caractères au plus',
+        minMessage: 'La description doit avoir 15 caractères au moins',
+        maxMessage: 'La description  doit avoir 1000 caractères au plus',
     )]
-    #[Assert\Type("alnum")]
+    #[Assert\Type("string", message:'Les caractères doivent etre alphanumériques')]
     private $description;
 
-    #[Groups(["house_read", "house_details_read"])]
+    #[Groups(["house_read", "house_details_read","house_write"])]
     #[ORM\Column(type: 'string', length: 255)]
     private $slug;
 
@@ -99,7 +114,21 @@ class House
     #[Assert\NotBlank(
         message: "L'image de présentation est obligatoire.",
     )]
+
+    // #[ApiProperty(iri: 'http://schema.org/contentUrl')]
+    #[Groups(['house:read'])]
     private $banner;
+
+    /**
+    * @Vich\UploadableField(mapping="media_object", fileNameProperty="filePath")
+    */
+    #[Groups(['house:write'])]
+    #[Vich\UploadableField(mapping:'houses', fileNameProperty:'banner')]
+    public ?File $file = null;
+
+    // #[ApiProperty(iri: 'http://schema.org/contentUrl')]
+    #[Groups(['house:read'])]
+    public ?string $contentUrl = null;
 
     public function __construct()
     {
@@ -221,6 +250,29 @@ class House
     public function setBanner(string $banner): self
     {
         $this->banner = $banner;
+
+        return $this;
+    }
+
+    public function getFile(): ?string
+    {
+        return $this->file;
+    }
+
+    public function setFile(string $file): self
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+    public function getContentUrl(): ?string
+    {
+        return $this->contentUrl;
+    }
+
+    public function setContentUrl(string $contentUrl): self
+    {
+        $this->contentUrl = $contentUrl;
 
         return $this;
     }

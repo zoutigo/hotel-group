@@ -18,15 +18,18 @@ import ButtonPrimary from '../customs/ButtonPrimary'
 import Bread from '../customs/Bread'
 import PageTitle from '../customs/PageTitle'
 import StyledNavLink from '../customs/StyledNavLink'
+import setUserDatas from '../utils/setUserDatas'
+import useIslogged from '../hook/useIsLogged'
 
 function LoginPage() {
+  const isLogged = useIslogged()
   const location = useLocation()
   const classes = useStyles()
   const { palette } = useTheme()
   const history = useHistory()
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const { dispatch, state } = useAppContext()
-  const { userInfo } = state
+  const { cart } = state
 
   const queryKey = ['login']
 
@@ -40,10 +43,11 @@ function LoginPage() {
     try {
       await mutateAsync(datas).then((response) => {
         if (response && response.status === 200) {
-          dispatch({ type: 'USER_LOGIN', payload: response.data })
-          Cookies.set('userInfo', JSON.stringify(response.data))
+          const userInfo = setUserDatas(response)
+          dispatch({ type: 'USER_LOGIN', payload: userInfo })
+          Cookies.set('userInfo', JSON.stringify(userInfo))
           const { from } = location.state || { from: { pathname: '/' } }
-          history.replace(from)
+          history.replace(cart.cartItems.length > 0 ? '/reserver' : from)
         }
       })
     } catch (err) {
@@ -52,7 +56,7 @@ function LoginPage() {
   }
 
   useEffect(() => {
-    if (userInfo) {
+    if (isLogged) {
       history.push('/')
     }
   }, [])
@@ -68,22 +72,20 @@ function LoginPage() {
             <ListItem className="field">
               <TextInput
                 control={control}
-                name="email"
+                name="username"
                 label="Email"
                 defaultValue=""
                 variant="filled"
                 example=""
                 rules={{
-                  required: "le nom de l'album est obligatoire",
+                  required: "l'identifiant",
                   minLength: {
                     value: 2,
-                    message:
-                      "le nom de l'album doit avoir 2 caractères au moins",
+                    message: "l'identifiant doit avoir 2 caractères au moins",
                   },
                   maxLength: {
                     value: 30,
-                    message:
-                      "le nom de l'album doit avoir 30 caractères au moins",
+                    message: "l'identifiant doit avoir 30 caractères au plus",
                   },
                 }}
               />
@@ -97,15 +99,11 @@ function LoginPage() {
                 variant="filled"
                 example=""
                 rules={{
-                  required: "le nom de l'album est obligatoire",
-                  minLength: {
-                    value: 2,
-                    message: '',
-                  },
+                  required: 'le mot de pass est obligatoire',
+
                   maxLength: {
                     value: 30,
-                    message:
-                      "le nom de l'album doit avoir 30 caractères au moins",
+                    message: 'le mot de pass doit avoir 30 caractères au plus',
                   },
                 }}
               />
@@ -121,7 +119,9 @@ function LoginPage() {
               <StyledNavLink
                 to={{
                   pathname: '/register',
-                  from: location.pathname,
+                  state: {
+                    from: location.pathname,
+                  },
                 }}
               >
                 Inscrivez vous

@@ -118,6 +118,9 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.7"
     },
+    "jms/metadata": {
+        "version": "2.6.1"
+    },
     "laminas/laminas-code": {
         "version": "4.5.1"
     },
@@ -412,6 +415,18 @@
     "symfony/intl": {
         "version": "v5.4.5"
     },
+    "symfony/lock": {
+        "version": "5.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.2",
+            "ref": "a1c8800e40ae735206bb14586fdd6c4630a51b8d"
+        },
+        "files": [
+            "config/packages/lock.yaml"
+        ]
+    },
     "symfony/mailer": {
         "version": "5.4",
         "recipe": {
@@ -522,6 +537,9 @@
     },
     "symfony/proxy-manager-bridge": {
         "version": "v5.4.6"
+    },
+    "symfony/rate-limiter": {
+        "version": "v5.4.7"
     },
     "symfony/requirements-checker": {
         "version": "2.0",
@@ -680,6 +698,18 @@
     },
     "twig/twig": {
         "version": "v3.3.8"
+    },
+    "vich/uploader-bundle": {
+        "version": "1.19",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.7",
+            "ref": "c4f5755b37fb65b9c6a3cbdae91205c15a137ed4"
+        },
+        "files": [
+            "config/packages/vich_uploader.yaml"
+        ]
     },
     "webmozart/assert": {
         "version": "1.10.0"

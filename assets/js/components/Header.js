@@ -18,6 +18,15 @@ import ButtonNavbar from './customs/ButtonNavBar'
 import StyledNavLink from './customs/StyledNavLink'
 import pages from './constants/pages'
 import useStyles from '../style'
+import useIslogged from './hook/useIsLogged'
+
+const headerRoutes = [
+  '/',
+  '/liste-des-etablissements',
+  '/contact',
+  '/reservation',
+  '/contact',
+]
 
 const routesExclusions = [
   '/liste-des-etablissements/slug',
@@ -46,7 +55,7 @@ const noclickSettings = [
 ]
 
 function Header() {
-  const [isAuth, setIsAuth] = React.useState(true)
+  const isLogged = useIslogged()
   const [anchorElNav, setAnchorElNav] = React.useState(null)
   const [anchorElUser, setAnchorElUser] = React.useState(null)
 
@@ -117,13 +126,15 @@ function Header() {
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-                {routes.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <StyledNavLink to={page.path}>
-                      <Typography textAlign="center">{page.name}</Typography>
-                    </StyledNavLink>
-                  </MenuItem>
-                ))}
+                {routes
+                  .filter((route) => headerRoutes.includes(route.path))
+                  .map((page) => (
+                    <MenuItem key={page} onClick={handleCloseNavMenu}>
+                      <StyledNavLink to={page.path}>
+                        <Typography textAlign="center">{page.name}</Typography>
+                      </StyledNavLink>
+                    </MenuItem>
+                  ))}
               </Menu>
             </Box>
             <Typography
@@ -146,24 +157,26 @@ function Header() {
                 pr: '4rem',
               }}
             >
-              {routes.map((page) => (
-                <StyledNavLink key={page.path} to={page.path}>
-                  <Button
-                    onClick={handleCloseNavMenu}
-                    sx={{
-                      my: 2,
-                      mx: 3,
-                      color: palette.secondarytext.main,
-                      textTransform: 'capitalize',
-                      display: 'block',
-                    }}
-                  >
-                    {page.name}
-                  </Button>
-                </StyledNavLink>
-              ))}
+              {routes
+                .filter((route) => headerRoutes.includes(route.path))
+                .map((page) => (
+                  <StyledNavLink key={page.path} to={page.path}>
+                    <Button
+                      onClick={handleCloseNavMenu}
+                      sx={{
+                        my: 2,
+                        mx: 3,
+                        color: palette.secondarytext.main,
+                        textTransform: 'capitalize',
+                        display: 'block',
+                      }}
+                    >
+                      {page.name}
+                    </Button>
+                  </StyledNavLink>
+                ))}
             </Box>
-            {!isAuth ? (
+            {!isLogged ? (
               <StyledNavLink
                 to={{
                   pathname: loginRoute.path,

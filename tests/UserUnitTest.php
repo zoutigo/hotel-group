@@ -60,7 +60,6 @@ class UserUnitTest extends TestCase
         $this->assertEmpty($user->getEmail());
         $this->assertEmpty($user->getFirstname());
         $this->assertEmpty($user->getLastname());
-        $this->assertEmpty($user->getPlainPassword());
         $this->assertEmpty($user->getCreatedAt());
         $this->assertEmpty($user->getId());
     }
